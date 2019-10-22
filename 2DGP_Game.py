@@ -5,17 +5,32 @@ from pico2d import *
 class Player:
     def __init__(self):
         self.x, self.y = 1000, 1000
-        self.image = load_image('Ironclad.png')
+        self.frame = 0
+        self.image = load_image('tengo_sleep.png')
+        self.dir=0
 
     def draw(self):
-        self.image.draw(200, 150)
-    def update(self):
-        pass
+        self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
 
+    def update(self):
+        self.frame = (self.frame + 1) % 12
+
+        if self.x >= 800:
+            self.dir = -1
+        elif self.x <= 0:
+            self.dir = 1
 
 
 class Monster:
-    pass
+    def __init__(self):
+        self.x, self.y = 1000, 1000
+        self.image = load_image('dw.gif')
+
+    def draw(self):
+        self.image.draw(600, 150)
+
+    def update(self):
+        pass
 
 
 def handle_events():
@@ -35,9 +50,9 @@ Game_Strat = True
 while Game_Strat:
     handle_events()
     player.update()
+
     clear_canvas()
     player.draw()
 
-    delay(0.01)
     update_canvas()
 close_canvas()
