@@ -3,6 +3,7 @@ from pico2d import *
 
 # Game object class here
 class Player:
+    global image
     def __init__(self):
         self.x, self.y = 2000, 1000
         self.frame = 0
@@ -17,6 +18,7 @@ class Player:
 
 
 class Monster:
+    global image
     def __init__(self):
         self.x, self.y = 1000, 1000
         self.frame = 0
@@ -28,6 +30,14 @@ class Monster:
 
     def update(self):
         self.frame = (self.frame + 1) % 7
+
+class BackGround:
+    global image
+    def __init__(self):
+        self.x, self.y = 0, 0
+        self.image=load_image('forest.png')
+    def draw(self):
+        self.image.draw(0.0,1024,512)
 
 
 def handle_events():
@@ -51,5 +61,6 @@ while Game_Strat:
     clear_canvas()
     player.draw()
     #Monster.draw()
+    BackGround.draw()
     update_canvas()
 close_canvas()
