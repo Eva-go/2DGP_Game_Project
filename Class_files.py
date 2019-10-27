@@ -22,17 +22,23 @@ count = 1
 
 
 class Grass:
-    # def __init__(self):
-    #  self.image = load_image('grass.png')
+    def __init__(self):
+        self.image = load_image('grass.png')
 
-    # def draw(self):
-    # self.image.draw(400, 30)
-    pass
+    def draw(self):
+        self.image.draw(683, 100)
+
+class Map:
+    def __init__(self):
+        self.image = load_image("Map1.png")
+
+    def draw(self):
+        self.image.draw(683, 384)
 
 
 class Tengo:
     def __init__(self):
-        self.x, self.y = 266, 300
+        self.x, self.y = 266, 250
         self.frame = 0
         self.image = load_image('tengo_sleep.png')
 
@@ -44,7 +50,7 @@ class Tengo:
 
 class Slime:
     def __init__(self):
-        self.x, self.y = 1166, 300
+        self.x, self.y = 1166, 220
         self.frame = 0
         self.image = load_image('slime_sleep.png')
 
@@ -55,12 +61,7 @@ class Slime:
         self.image.clip_draw(self.frame * 200, 0, 200, 200, self.x, self.y)
 
 
-class Map:
-    def __init__(self):
-        self.image = load_image("Map1.png")
 
-    def draw(self):
-        self.image.draw(683, 384)
 
 
 def enter():
@@ -111,6 +112,7 @@ def draw():
     clear_canvas()
     # grass.draw()
     map.draw()
+    grass.draw()
     tengo.draw()
     slime.draw()
     delay(0.1)

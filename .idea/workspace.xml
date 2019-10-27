@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="a52aa6f7-81e7-4344-8918-ebe8895ddfa6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KPU_Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/KPU_Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logo_start_state.py" beforeDir="false" afterPath="$PROJECT_DIR$/Logo_start_state.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slime_attack.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/slime_die.png" beforeDir="false" afterPath="$PROJECT_DIR$/slime_die.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slime_sleep.png" beforeDir="false" afterPath="$PROJECT_DIR$/slime_sleep.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Class_files.py" beforeDir="false" afterPath="$PROJECT_DIR$/Class_files.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/grass.png" beforeDir="false" afterPath="$PROJECT_DIR$/grass.png" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,7 +26,7 @@
   <component name="ProjectId" id="1SZnx8I3D7TvAY7j84eLTHR6ssY" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../python/Scripts" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -137,6 +134,8 @@
       <workItem from="1571971380153" duration="3395000" />
       <workItem from="1571974807097" duration="24000" />
       <workItem from="1572008834718" duration="3569000" />
+      <workItem from="1572109582874" duration="350000" />
+      <workItem from="1572193601040" duration="926000" />
     </task>
     <servers />
   </component>
@@ -157,7 +156,7 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/2DGP_Game_Project$Game_Start.coverage" NAME="Game_Start Coverage Results" MODIFIED="1572013693463" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/2DGP_Game_Project$Game_Start.coverage" NAME="Game_Start Coverage Results" MODIFIED="1572194047733" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/2DGP_Game_Project$2DGP_GAME.coverage" NAME="2DGP_GAME Coverage Results" MODIFIED="1571970652407" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/2DGP_Game_Project$2DGP_Game.coverage" NAME="2DGP_Game Coverage Results" MODIFIED="1571967316539" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
