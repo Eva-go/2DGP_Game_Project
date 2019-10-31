@@ -10,17 +10,16 @@ import openpyxl  # 엑셀 사용 라이브러리
 
 name = "Class_files"
 
-tengo = None
-grass = None
-font = None
-slime1 = None
-slime2 = None
-map = None
-card_attack = None
-card_shield = None
 
-x = 0
-y = 0
+grass = None
+
+
+map = None
+
+
+
+mouse_x, mouse_y = 1366 / 2, 768 / 2
+i=0
 count = 1
 
 
@@ -35,9 +34,11 @@ class Card:
 # CARD 메서드
 class Card_Attack(Card):
     # 상속 받아서 image등록
+    card_attack = None
     def __init__(self):
         super().__init__()
-        self.image = load_image(self.ws['E2'].value)
+        if Card_Attack.card_attack == None:
+            self.image = load_image(self.ws['E2'].value)
 
     def draw(self):
         self.image.draw(400, 125)
@@ -48,9 +49,11 @@ class Card_Attack(Card):
 
 class Card_Shield(Card):
     # 상속 받아서 image등록
+    card_shield = None
     def __init__(self):
         super().__init__()
-        self.image = load_image(self.ws['E3'].value)
+        if Card_Shield.card_shield == None:
+            self.image = load_image(self.ws['E3'].value)
 
     def draw(self):
         self.image.draw(500, 125)
@@ -76,10 +79,12 @@ class Map:
 
 
 class Tengo:
+    tengo = None
     def __init__(self):
         self.x, self.y = 266, 350
         self.frame = 0
-        self.image = load_image('tengo_sleep.png')
+        if Tengo.tengo == None:
+            self.image = load_image('tengo_sleep.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 12
@@ -89,10 +94,14 @@ class Tengo:
 
 
 class Slime:
-    def __init__(self,x,y):
-        self.frame = 0
-        self.image = load_image('slime_sleep.png')
-        self.x, self.y = x, y
+    slime = None
+    def __init__(self):
+        self.x, self.y = random.randint(1066, 1266), 300
+        self.frame = random.randint(0, 6)
+        if Slime.slime == None:
+            self.image = load_image('slime_sleep.png')
+
+
     def update(self):
         self.frame = (self.frame + 1) % 7
 
@@ -102,26 +111,26 @@ class Slime:
 
 
 def enter():
-    global tengo, grass, map, card_attack, card_shield, slime1, slime2
+    global tengo,slimes, grass, map, card_attack, card_shield,curser,monster
+    monster=0
+    curser = load_image('curser.png')
     tengo = Tengo()
     card_attack = Card_Attack()
+    slimes=[Slime() for monster in range(3)]
     grass = Grass()
-    slime1 = Slime(1166, 300)
-    slime2 = Slime(1166, 350)
     map = Map()
     card_shield = Card_Shield()
 
 
 def exit():
-    global tengo, grass, map, card_attack, card_shield, slime1, slime2
+    global tengo,slimes, grass, map, card_attack, card_shield,curser
     del (tengo)
     del (grass)
-    del (slime1)
-    del (slime2)
+    del (slimes)
     del (map)
     del (card_attack)
     del (card_shield)
-
+    del (curser)
 
 def pause():
     pass
@@ -132,34 +141,37 @@ def resume():
 
 
 def handle_events():
-    global count
+    global count, mouse_x, mouse_y
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.change_state(Title_state)
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
-            x, y = event.x, event.y
+        elif event.type == SDL_MOUSEMOTION:
+            mouse_x, mouse_y = event.x, 768 - 1 - event.y
 
-            # game_framework.push_state(pause_state2)
 
 
 def update():
+    hide_cursor()
     tengo.update()
-    slime1.update()
-    slime2.update()
+    for slime in slimes:
+        slime.update()
 
 
 def draw():
+    global mouse_x, mouse_y
     clear_canvas()
+
     map.draw()
     grass.draw()
     card_attack.draw()
     card_shield.draw()
     tengo.draw()
-    slime1.draw()
-    slime2.draw()
+    for slime in slimes:
+        slime.draw()
+    curser.draw(mouse_x, mouse_y)
     delay(0.1)
 
     update_canvas()
