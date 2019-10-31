@@ -19,29 +19,31 @@ map = None
 
 
 mouse_x, mouse_y = 1366 / 2, 768 / 2
-i=0
+
 count = 1
+tmp=4 #스프라이트 속도 제한 변수
 
 
 # CARD 속성
 class Card:
-    def __init__(self):
+    def __init__(self,num):
         # 엑셀로 카드이미지,값처리
         self.wb = openpyxl.load_workbook('Card_list.xlsx', data_only=True)
         self.ws = self.wb['Sheet1']
+        self.x, self.y = 300 + 100 * num, 125
 
 
 # CARD 메서드
 class Card_Attack(Card):
     # 상속 받아서 image등록
     card_attack = None
-    def __init__(self):
-        super().__init__()
+    def __init__(self,num):
+        super().__init__(num)
         if Card_Attack.card_attack == None:
             self.image = load_image(self.ws['E2'].value)
 
     def draw(self):
-        self.image.draw(400, 125)
+        self.image.draw(self.x, self.y)
 
     def update(self):
         pass
@@ -50,13 +52,13 @@ class Card_Attack(Card):
 class Card_Shield(Card):
     # 상속 받아서 image등록
     card_shield = None
-    def __init__(self):
-        super().__init__()
+    def __init__(self,num):
+        super().__init__(num)
         if Card_Shield.card_shield == None:
             self.image = load_image(self.ws['E3'].value)
 
     def draw(self):
-        self.image.draw(500, 125)
+        self.image.draw(self.x, self.y)
 
     def update(self):
         pass
@@ -65,6 +67,7 @@ class Card_Shield(Card):
 class Grass:
     def __init__(self):
         self.image = load_image('grass2.png')
+        self.layer = 0
 
     def draw(self):
         self.image.draw(683, 150)
@@ -81,56 +84,74 @@ class Map:
 class Tengo:
     tengo = None
     def __init__(self):
+        global tmp
         self.x, self.y = 266, 350
         self.frame = 0
         if Tengo.tengo == None:
             self.image = load_image('tengo_sleep.png')
 
     def update(self):
+        global tmp
         self.frame = (self.frame + 1) % 12
 
     def draw(self):
         self.image.clip_draw(self.frame * 200, 0, 200, 200, self.x, self.y)
 
 
+
 class Slime:
     slime = None
-    def __init__(self):
-        self.x, self.y = random.randint(1066, 1266), 300
+
+    def __init__(self, num):
+        self.x, self.y = 1066+100*num, 300
         self.frame = random.randint(0, 6)
         if Slime.slime == None:
             self.image = load_image('slime_sleep.png')
 
 
     def update(self):
-        self.frame = (self.frame + 1) % 7
+        global tmp
+        self.frame += 1
+        if self.frame/tmp>=7:
+            self.frame=0
 
 
     def draw(self):
-        self.image.clip_draw(self.frame * 200, 0, 200, 200, self.x, self.y)
+        global tmp
+        self.image.clip_draw((self.frame//tmp) * 200, 0, 200, 200, self.x, self.y)
 
 
 def enter():
-    global tengo,slimes, grass, map, card_attack, card_shield,curser,monster
+    global tengo,slimes, grass, map,curser,monster,card
     monster=0
     curser = load_image('curser.png')
     tengo = Tengo()
-    card_attack = Card_Attack()
-    slimes=[Slime() for monster in range(3)]
+    #slimes=[Slime() for monster in range(3)]
+    slimes = [] # 슬라임들 리스트 생성
+    for i in range(0,3,1): #슬라임들 시작 끝 스텝순으로
+        slimes.append(Slime(i)) # 생성하기
+
+    card=[]
+    for i in range(0,5,1):
+        rand = random.randint(1, 2)
+        if rand == 1:
+            card.append(Card_Attack(i))
+        elif rand==2:
+            card.append(Card_Shield(i))
     grass = Grass()
     map = Map()
-    card_shield = Card_Shield()
 
 
 def exit():
     global tengo,slimes, grass, map, card_attack, card_shield,curser
     del (tengo)
     del (grass)
-    del (slimes)
+    del (slimes) # 궁금!
     del (map)
     del (card_attack)
     del (card_shield)
     del (curser)
+    del (card)
 
 def pause():
     pass
@@ -166,12 +187,12 @@ def draw():
 
     map.draw()
     grass.draw()
-    card_attack.draw()
-    card_shield.draw()
+    for c in card:
+        c.draw()
     tengo.draw()
     for slime in slimes:
         slime.draw()
     curser.draw(mouse_x, mouse_y)
-    delay(0.1)
+   # delay(0.1)
 
     update_canvas()
