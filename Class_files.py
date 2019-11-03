@@ -1,7 +1,6 @@
 import random
 import json
 import os
-# import pause_state
 
 from pico2d import *
 import game_framework
@@ -42,10 +41,12 @@ class Card_Attack(Card):
             self.image = load_image(self.ws['E2'].value)
 
     def draw(self):
-        self.image.draw(self.x, self.y)
+        if move_card==0:
+            self.image.draw(self.x, self.y)
 
     def update(self):
-        pass
+        if move_card==1:
+            self.image.darw(mouse_x, mouse_y)
 
 
 class Card_Shield(Card):
@@ -58,11 +59,12 @@ class Card_Shield(Card):
             self.image = load_image(self.ws['E3'].value)
 
     def draw(self):
-        self.image.draw(self.x, self.y)
+        if move_card==0:
+            self.image.draw(self.x, self.y)
 
     def update(self):
-        pass
-
+        if move_card==1:
+            self. image.darw(mouse_x,mouse_y)
 
 class Grass:
     def __init__(self):
@@ -128,7 +130,7 @@ class Slime:
 move_card=0
 
 def enter():
-    global tengo, slimes, grass, map, curser, monster, card,move_card
+    global tengo, slimes, grass, map, curser, monster, card
     monster = 0
     curser = load_image('curser.png')
     tengo = Tengo()
@@ -167,7 +169,7 @@ def resume():
 
 
 def handle_events():
-    global count, mouse_x, mouse_y,card,c
+    global count, mouse_x, mouse_y,move_card
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -178,14 +180,16 @@ def handle_events():
             mouse_x, mouse_y = event.x, 768 - 1 - event.y
         elif event.type == SDL_MOUSEBUTTONDOWN:
             if mouse_x > 400 and mouse_x < 550 and mouse_y > 25 and mouse_y < 225:
-               pass
-
+                pass
 
 def update():
+    global c
     hide_cursor()
     tengo.update()
     for slime in slimes:
         slime.update()
+    for c in card:
+        c.update()
 
 
 def draw():
@@ -194,9 +198,9 @@ def draw():
 
     map.draw()
     grass.draw()
-    for c in card:
-        c.draw()
-    tengo.draw()
+   # for c in card:
+    #    c.draw()
+    #tengo.draw()
     for slime in slimes:
         slime.draw()
     curser.draw(mouse_x, mouse_y)
