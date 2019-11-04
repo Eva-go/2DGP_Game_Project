@@ -1,161 +1,47 @@
 import random
 import json
 import os
-# import pause_state
 
 from pico2d import *
 import game_framework
 import Title_state
+from player_file import player_tengo_class
+from monseter_file import monster_slime_class
+from card_file import card_list_class
 import openpyxl  # 엑셀 사용 라이브러리
-
-name = "Class_files"
-
-grass = None
-
-map = None
 
 mouse_x, mouse_y = 1366 / 2, 768 / 2
 
-count = 1
-tmp = 20  # 스프라이트 속도 제한 변수
-
-
-# CARD 속성
-class Card:
-    global move_card
-    def __init__(self, num):
-        # 엑셀로 카드이미지,값처리
-        self.wb = openpyxl.load_workbook('Card_list.xlsx', data_only=True)
-        self.ws = self.wb['Sheet1']
-        self.x, self.y = 400 + 150 * num, 125
-        self.layer = 2
-
-
-# CARD 메서드
-class Card_Attack(Card):
-    # 상속 받아서 image등록
-    card_attack = None
-
-    def __init__(self, num):
-        super().__init__(num)
-        if Card_Attack.card_attack == None:
-            self.image = load_image(self.ws['E2'].value)
-
-    def draw(self):
-        self.image.draw(self.x, self.y)
-
-    def update(self):
-        pass
-
-
-class Card_Shield(Card):
-    # 상속 받아서 image등록
-    card_shield = None
-
-    def __init__(self, num):
-        super().__init__(num)
-        if Card_Shield.card_shield == None:
-            self.image = load_image(self.ws['E3'].value)
-
-    def draw(self):
-        self.image.draw(self.x, self.y)
-
-    def update(self):
-        pass
-
-
-class Grass:
-    def __init__(self):
-        self.image = load_image('grass2.png')
-        self.layer = 0
-
-    def draw(self):
-        self.image.draw(683, 150)
-
-
-class Map:
-    def __init__(self):
-        self.image = load_image("Map1.png")
-        self.layer = 0
-
-    def draw(self):
-        self.image.draw(683, 384)
-
-
-class Tengo:
-    tengo = None
-
-    def __init__(self):
-        global tmp
-        self.x, self.y = 266, 350
-        self.frame = 0
-        if Tengo.tengo == None:
-            self.image = load_image('tengo_sleep.png')
-
-        self.layer = 1
-
-    def update(self):
-        global tmp
-        self.frame += 1
-        if self.frame / tmp >= 12:
-            self.frame = 0
-
-    def draw(self):
-        self.image.clip_draw((self.frame // tmp) * 200, 0, 200, 200, self.x, self.y)
-
-
-class Slime:
-    slime = None
-
-    def __init__(self, num):
-        self.x, self.y = 866 + 100 * num, 300
-        self.frame = random.randint(0, 6)
-        if Slime.slime == None:
-            self.image = load_image('slime_sleep.png')
-
-        self.layer = 2
-
-    def update(self):
-        global tmp
-        self.frame += 1
-        if self.frame / tmp >= 7:
-            self.frame = 0
-
-    def draw(self):
-        global tmp
-        self.image.clip_draw((self.frame // tmp) * 200, 0, 200, 200, self.x, self.y)
-
-move_card=0
 
 def enter():
-    global tengo, slimes, grass, map, curser, monster, card,move_card
-    monster = 0
+    global grass, map, curser, player_tengo, monster_slimes, card_list
+    map = load_image('background_file\\Map1.png')
+    grass = load_image('background_file\\grass2.png')
     curser = load_image('curser.png')
-    tengo = Tengo()
-    # slimes=[Slime() for monster in range(3)]
-    slimes = []  # 슬라임들 리스트 생성
-    for i in range(0, random.randint(1,5), 1):  # 슬라임들 시작 끝 스텝순으로
-        slimes.append(Slime(i))  # 생성하기
 
-    card = []
-    for i in range(0, 5, 1):
+    player_tengo = player_tengo_class.Tengo()
+
+    monster_slimes = []
+    for m in range(0, random.randint(1, 5), 1):
+        monster_slimes.append(monster_slime_class.Slime(m))
+
+    card_list = []
+    for c in range(0, 5, 1):
         rand = random.randint(1, 2)
         if rand == 1:
-            card.append(Card_Attack(i))
+            card_list.append(card_list_class.Card_Attack(c))
         elif rand == 2:
-            card.append(Card_Shield(i))
-    grass = Grass()
-    map = Map()
+            card_list.append(card_list_class.Card_Shield(c))
 
 
 def exit():
-    global tengo, slimes, grass, map, card_shield, curser, card
-    del (tengo)
+    global grass, map, curser, player_tengo, monster_slimes, card_list
     del (grass)
-    del (slimes)  # 궁금!
     del (map)
-    del (card)
     del (curser)
+    del (player_tengo)
+    del (monster_slimes)
+    del (card_list)
 
 
 def pause():
@@ -167,7 +53,7 @@ def resume():
 
 
 def handle_events():
-    global count, mouse_x, mouse_y,card,c
+    global mouse_x, mouse_y
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -177,28 +63,30 @@ def handle_events():
         elif event.type == SDL_MOUSEMOTION:
             mouse_x, mouse_y = event.x, 768 - 1 - event.y
         elif event.type == SDL_MOUSEBUTTONDOWN:
-            if mouse_x > 400 and mouse_x < 550 and mouse_y > 25 and mouse_y < 225:
-               pass
+            pass
 
 
 def update():
     hide_cursor()
-    tengo.update()
-    for slime in slimes:
+
+    player_tengo.update()
+
+    for slime in monster_slimes:
         slime.update()
 
 
 def draw():
-    global mouse_x, mouse_y,c
+    global mouse_x, mouse_y
     clear_canvas()
+    map.draw(683, 384)
+    grass.draw(683, 150)
 
-    map.draw()
-    grass.draw()
-    for c in card:
-        c.draw()
-    tengo.draw()
-    for slime in slimes:
+    player_tengo.draw()
+    for slime in monster_slimes:
         slime.draw()
-    curser.draw(mouse_x, mouse_y)
 
+    for card in card_list:
+        card.draw()
+
+    curser.draw(mouse_x, mouse_y)
     update_canvas()
