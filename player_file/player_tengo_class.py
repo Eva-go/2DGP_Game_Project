@@ -1,6 +1,6 @@
 from pico2d import *
 
-tmp = 20
+tmp = 10
 class Tengo:
     tengo = None
 
@@ -8,6 +8,7 @@ class Tengo:
         global tmp
         self.x, self.y = 266, 350
         self.frame = 0
+        self.hp=50
         if Tengo.tengo == None:
             self.image = load_image('player_file\\tengo_sleep.png')
 

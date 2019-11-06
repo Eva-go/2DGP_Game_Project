@@ -1,7 +1,7 @@
 from pico2d import *
 import random
 
-tmp = 20
+tmp = 10
 
 
 class Slime:
@@ -10,6 +10,8 @@ class Slime:
     def __init__(self, num):
         self.x, self.y = 866 + 100 * num, 300
         self.frame = random.randint(0, 6)
+        self.hp=20
+
         if Slime.slime == None:
             self.image = load_image('monseter_file\\slime_sleep.png')
 

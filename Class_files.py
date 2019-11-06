@@ -8,10 +8,11 @@ import Title_state
 from player_file import player_tengo_class
 from monseter_file import monster_slime_class
 from card_file import card_list_class
-import openpyxl  # 엑셀 사용 라이브러리
 
 mouse_x, mouse_y = 1366 / 2, 768 / 2
+card_list_move = False
 
+card_list = []
 
 def enter():
     global grass, map, curser, player_tengo, monster_slimes, card_list
@@ -25,7 +26,7 @@ def enter():
     for m in range(0, random.randint(1, 5), 1):
         monster_slimes.append(monster_slime_class.Slime(m))
 
-    card_list = []
+
     for c in range(0, 5, 1):
         rand = random.randint(1, 2)
         if rand == 1:
@@ -53,7 +54,7 @@ def resume():
 
 
 def handle_events():
-    global mouse_x, mouse_y
+    global mouse_x, mouse_y, card_list_move
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -63,16 +64,28 @@ def handle_events():
         elif event.type == SDL_MOUSEMOTION:
             mouse_x, mouse_y = event.x, 768 - 1 - event.y
         elif event.type == SDL_MOUSEBUTTONDOWN:
-            pass
+            if mouse_x >= 325 and mouse_y >= 30 and mouse_x <= 475 and mouse_y <= 210:
+                card_list_move = True
+
+        elif event.type == SDL_MOUSEBUTTONUP:
+            if card_list_move == True:
+                # del(card_list[0])
+                card_list.pop(0)
+                print(card_list)
+                card_list_move = False
+
 
 
 def update():
-    hide_cursor()
+    global card_list,mouse_x, mouse_y
+    show_cursor()
 
     player_tengo.update()
 
     for slime in monster_slimes:
         slime.update()
+    if card_list_move == True:
+        card_list[0].update(mouse_x,mouse_y)
 
 
 def draw():
