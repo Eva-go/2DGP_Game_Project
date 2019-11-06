@@ -1,5 +1,5 @@
 from pico2d import *
-
+import random
 tmp = 10
 class Tengo:
     tengo = None
@@ -14,11 +14,11 @@ class Tengo:
 
         self.layer = 1
 
+    def draw(self):
+        self.image.clip_draw((self.frame // tmp) * 200, 0, 200, 200, self.x, self.y)
+
     def update(self):
         global tmp
         self.frame += 1
         if self.frame / tmp >= 12:
             self.frame = 0
-
-    def draw(self):
-        self.image.clip_draw((self.frame // tmp) * 200, 0, 200, 200, self.x, self.y)
