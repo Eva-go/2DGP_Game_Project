@@ -58,8 +58,16 @@ def resume():
 def handle_events():
     main_handle_event.handle_events()
 
-
-
+# 마우스가 눌리면 main_handle_event_class 에서 불러줌
+def on_mouse_down(mouse_pos):
+    i = 0;
+    while i < len(card_list):
+        if card_list[i].card_conflict_check(mouse_pos):
+            print("안녕")
+            del card_list[i]
+        else:
+            i += 1
+        
 
 
 def update():
@@ -70,6 +78,9 @@ def update():
 
     for slime in monster_slimes:
         slime.update()
+
+
+
     if main_handle_event.card_list_move == True:
         card_list[0].update(main_handle_event.mouse_x,main_handle_event.mouse_y)
     elif main_handle_event.card_list_del == True: #핸들 문제를 어떻게할것인가..?

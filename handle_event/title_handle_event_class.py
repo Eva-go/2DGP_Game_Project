@@ -19,7 +19,7 @@ class Title_state_event:
                     game_framework.change_state(Class_files)
                 elif event.type == SDL_MOUSEMOTION:
                     self.mouse_x, self.mouse_y = event.x, 768 - 1 - event.y
-                elif event.type == SDL_MOUSEBUTTONDOWN:
+                elif event.type == SDL_MOUSEBUTTONUP:
                     if self.mouse_x >= 200 and self.mouse_y <= 188 and self.mouse_x <= 485 and self.mouse_y >= 123:
                         game_framework.change_state(Class_files)
                     elif self.mouse_x >= 880 and self.mouse_y <= 188 and self.mouse_x <= 1165 and self.mouse_y >= 123:
