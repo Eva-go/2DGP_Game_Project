@@ -58,17 +58,29 @@ def resume():
 def handle_events():
     main_handle_event.handle_events()
 
-# 마우스가 눌리면 main_handle_event_class 에서 불러줌
+# 마우스가 때면 main_handle_event_class 에서 불러줌
+def on_mouse_up(mouse_pos):
+    i = 0;
+    while i < len(card_list):
+        if card_list[i].card_conflict_check(mouse_pos):
+            del card_list[i]
+
+
+        else:
+            i += 1
+
+#여기서 카드 움직임(제작 불가)
 def on_mouse_down(mouse_pos):
     i = 0;
     while i < len(card_list):
         if card_list[i].card_conflict_check(mouse_pos):
-            print("안녕")
-            del card_list[i]
+            card_list[i].update(mouse_pos)
         else:
             i += 1
-        
 
+
+
+#여기서 어떻게 check가 false로 바꿀수 있는가.
 
 def update():
     global card_list
@@ -79,13 +91,6 @@ def update():
     for slime in monster_slimes:
         slime.update()
 
-
-
-    if main_handle_event.card_list_move == True:
-        card_list[0].update(main_handle_event.mouse_x,main_handle_event.mouse_y)
-    elif main_handle_event.card_list_del == True: #핸들 문제를 어떻게할것인가..?
-        del (card_list[0])
-        main_handle_event.card_list_del=False
         #card_list.pop(0)
         #main_handle_event_class.card_list_move=False
 

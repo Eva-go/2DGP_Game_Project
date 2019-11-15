@@ -15,10 +15,9 @@ class Card:
     def get_rect(self):
         return (self.x-self.half_w, self.y-self.half_h,self.x + self.half_w, self.y + self.half_h)
 
-    def update(self, mx, my):
-        self.x,self.y =mx,my
-        #while len(i<Class_files.card_list)
-         #   card[i].
+    def update(self, mouse_pos):
+        self.x,self.y =mouse_pos
+
 
     # 카드가 마우스랑 충돌했는지?
     def card_conflict_check(self, mouse_pos):
@@ -37,8 +36,6 @@ class Card_Attack(Card):
         if Card_Attack.card_attack == None:
             self.image = load_image('card_file\\Card_Attack.png')
 
-    # def update(self, mx, my):
-    #   self.x = mx,self.y = my
 
     def draw(self):
         self.image.draw(self.x, self.y)
@@ -53,8 +50,6 @@ class Card_Shield(Card):
         if Card_Shield.card_shield == None:
             self.image = load_image('card_file\\Card_Shield.png')
 
-    # def update(self, mx, my):
-    #   self.x = mx, self.y = my
 
     def draw(self):
         self.image.draw(self.x, self.y)

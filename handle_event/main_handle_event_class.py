@@ -2,7 +2,7 @@ from pico2d import*
 import Title_state
 import Class_files
 import game_framework
-
+from card_file import card_list_class
 class Main_handle_event():
     def __init__(self):
         self.mouse_x, self.mouse_y=0,0
@@ -17,13 +17,13 @@ class Main_handle_event():
                 game_framework.change_state(Title_state)
             elif event.type == SDL_MOUSEMOTION:
                 self.mouse_x,  self.mouse_y = event.x, 768 - 1 - event.y
+                if event.type == SDL_MOUSEBUTTONDOWN:
+                    Class_files.on_mouse_down((event.x, 768 - 1 - event.y))
             elif event.type == SDL_MOUSEBUTTONDOWN:
-                Class_files.on_mouse_down((event.x, 768 - 1 - event.y))
-                #if  self.mouse_x >= 325 and  self.mouse_y >= 30 and self. mouse_x <= 475 and self. mouse_y <= 210:
-                 #   self.card_list_move = True
+                #if event.type == SDL_MOUSEMOTION:
+                   # Class_files.on_mouse_down((event.x, 768 - 1 - event.y))
+                pass
 
             elif event.type == SDL_MOUSEBUTTONUP:
-                pass
-                #self.card_list_del = True
-                #del (card_list[0])
-               #card_list.pop(0)
+                 Class_files.on_mouse_up((event.x, 768 - 1 - event.y))
+
