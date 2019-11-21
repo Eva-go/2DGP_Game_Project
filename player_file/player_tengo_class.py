@@ -1,5 +1,6 @@
 from pico2d import *
 import random
+import Class_files
 tmp = 10
 class Tengo:
     tengo = None
@@ -22,3 +23,9 @@ class Tengo:
         self.frame += 1
         if self.frame / tmp >= 12:
             self.frame = 0
+        if Class_files.tengo_attack==True:
+            self.image = load_image('player_file\\tengo_attack.png')
+        elif Class_files.tengo_shield==True:
+            self.image = load_image('player_file\\tengo_skill1.png')
+        else:
+            self.image = load_image('player_file\\tengo_sleep.png')

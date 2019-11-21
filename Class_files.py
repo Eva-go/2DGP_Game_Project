@@ -14,6 +14,9 @@ from handle_event import main_handle_event_class
 
 card_list = []
 monster_slimes = []
+mouse_move=False
+tengo_attack=False
+tengo_shield=False
 
 def enter():
     global grass, map, curser, player_tengo, monster_slimes, card_list,main_handle_event
@@ -60,37 +63,44 @@ def handle_events():
 
 # 마우스가 때면 main_handle_event_class 에서 불러줌
 def on_mouse_up(mouse_pos):
-    i = 0;
+    global mouse_move,tengo_attack,tengo_shield
+    mouse_move=False
+    i = 0
     while i < len(card_list):
         if card_list[i].card_conflict_check(mouse_pos):
+
+            if card_list[i]==card_list_class.Card_Attack:
+                card_list.pop(card_list_class.Card_Attack(i))
+                tengo_attack=True
+
+            elif card_list[i]==card_list_class.Card_Shield:
+                    card_list.pop(card_list_class.Card_Shield(i))
+                    tengo_shield=True
             del card_list[i]
-
-
         else:
             i += 1
 
 #여기서 카드 움직임(제작 불가)
 def on_mouse_down(mouse_pos):
-    i = 0;
-    while i < len(card_list):
-        if card_list[i].card_conflict_check(mouse_pos):
-            card_list[i].update(mouse_pos)
-        else:
-            i += 1
-
+    global mouse_move
+    i=0
+    #while i<len(card_list):
+     #   if card_list[i].card_conflict_check(mouse_pos):
+      #      mouse_move=True
+       # else:
+        #    i += 1
+    pass
 
 
 #여기서 어떻게 check가 false로 바꿀수 있는가.
 
 def update():
-    global card_list
     show_cursor()
 
     player_tengo.update()
 
     for slime in monster_slimes:
         slime.update()
-
         #card_list.pop(0)
         #main_handle_event_class.card_list_move=False
 
