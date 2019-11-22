@@ -15,8 +15,9 @@ class Card:
     def get_rect(self):
         return (self.x-self.half_w, self.y-self.half_h,self.x + self.half_w, self.y + self.half_h)
 
-    def update(self, mouse_pos):
-        self.x,self.y =mouse_pos
+    def update(self):
+        pass
+        #self.x,self.y =mouse_pos
 
 
     # 카드가 마우스랑 충돌했는지?
@@ -26,30 +27,34 @@ class Card:
             return True
 
 
+CARD_ATTACK, CARD_SHIELD = range(2)
+
 # CARD 메서드
 class Card_Attack(Card):
-    global mouse_x, mouse_y
-    card_attack = None
+    image = None
 
     def __init__(self, num):
         super().__init__(num)
-        if Card_Attack.card_attack == None:
-            self.image = load_image('card_file\\Card_Attack.png')
+        if Card_Attack.image == None:
+            Card_Attack.image = load_image('card_file\\Card_Attack.png')
 
+    def type(self):
+        return CARD_ATTACK
 
     def draw(self):
-        self.image.draw(self.x, self.y)
+        Card_Attack.image.draw(self.x, self.y)
 
 
 class Card_Shield(Card):
-    global mouse_x, mouse_y
-    card_shield = None
+    image = None
 
     def __init__(self, num):
         super().__init__(num)
-        if Card_Shield.card_shield == None:
-            self.image = load_image('card_file\\Card_Shield.png')
+        if Card_Shield.image == None:
+            Card_Shield.image = load_image('card_file\\Card_Shield.png')
 
+    def type(self):
+        return CARD_SHIELD
 
     def draw(self):
-        self.image.draw(self.x, self.y)
+        Card_Shield.image.draw(self.x, self.y)
