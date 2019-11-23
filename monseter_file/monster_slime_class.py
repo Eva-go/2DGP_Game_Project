@@ -5,14 +5,14 @@ tmp = 10
 
 
 class Slime:
-    slime = None
+    image = None
 
     def __init__(self, num):
         self.x, self.y = 866 + 100 * num, 300
         self.frame = random.randint(0, 6)
         self.hp=20
 
-        if Slime.slime == None:
+        if Slime.image == None:
             self.image = load_image('monseter_file\\slime_sleep.png')
 
         self.layer = 2
