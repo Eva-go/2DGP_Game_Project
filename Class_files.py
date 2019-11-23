@@ -101,7 +101,6 @@ def on_mouse_down(mouse_pos):
     pass
 
 
-# 여기서 어떻게 check가 false로 바꿀수 있는가.
 
 def update():
     show_cursor()

@@ -10,9 +10,9 @@ class Tengo:
         self.frame = 0
         self.hp=50
 
-        self.sleep = Animation('player_file/tengo_sleep.png', 12,200,200)
-        self.attack = Animation('player_file\\sk.png', 21,346,127)
-       # self.skill = Animation('player_file\\sk.png,',21,350,127)
+        self.sleep = Animation('player_file\\tengo_sleep.png', 12,200,200)
+        self.attack = Animation('player_file\\tengo_attack.png', 11,400,300)
+        #self.skill = Animation('player_file\\sk.png,',21,350,127)
         self.image = self.sleep
 
         self.layer = 1
@@ -27,6 +27,7 @@ class Tengo:
             self.frame = 0
         if Class_files.tengo_attack==True:
             self.image = self.attack
+            Animation.get_count(self)
         elif Class_files.tengo_shield==True:
             #self.image = self.skill
             pass
@@ -44,6 +45,9 @@ class Animation:
         self.image.clip_draw(image_x * self.image_w, image_y, self.image_w, self.image_h, x, y)
 
     def get_count(self):
-        #if self.max_frame==11:
-         #   for i in range(11):
-            pass
+        if Tengo.image == Tengo.attack: #Tengo.image = sleep image \ Tengo.attack = attack image
+            if self.max_frame ==12:
+                Tengo.image=Tengo.sleep
+
+
+
