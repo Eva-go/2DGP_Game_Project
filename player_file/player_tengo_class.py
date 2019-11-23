@@ -11,8 +11,8 @@ class Tengo:
         self.hp=50
 
         self.sleep = Animation('player_file/tengo_sleep.png', 12,200,200)
-        self.attack = Animation('player_file\\tengo_attack.png', 11,400,300)
-
+        self.attack = Animation('player_file\\sk.png', 21,346,127)
+       # self.skill = Animation('player_file\\sk.png,',21,350,127)
         self.image = self.sleep
 
         self.layer = 1
@@ -27,10 +27,12 @@ class Tengo:
             self.frame = 0
         if Class_files.tengo_attack==True:
             self.image = self.attack
-        #elif Class_files.tengo_shield==True:
-         #   self.image = load_image('player_file\\tengo_skill.png') # 크기 문제
+        elif Class_files.tengo_shield==True:
+            #self.image = self.skill
+            pass
         else:
             self.image = self.sleep
+
 
 class Animation:
     def __init__(self, path, max_frame,image_w,image_h):

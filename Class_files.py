@@ -98,12 +98,6 @@ def on_mouse_up(mouse_pos):
 # 여기서 카드 움직임(제작 불가)
 def on_mouse_down(mouse_pos):
     global mouse_move
-    i = 0
-    # while i<len(card_list):
-    #   if card_list[i].card_conflict_check(mouse_pos):
-    #      mouse_move=True
-    # else:
-    #    i += 1
     pass
 
 
@@ -126,8 +120,6 @@ def draw():
     for game_object in game_world.all_objects():
         game_object.draw()
 
-    #for card in card_list:
-     #   card.draw()
 
     curser.draw(main_handle_event.mouse_x, main_handle_event.mouse_y)
     update_canvas()
