@@ -19,6 +19,7 @@ class Slime:
 
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 7
         if self.frame >= self.image.max_frame:
+
             self.frame = 0
 
     def draw(self):
