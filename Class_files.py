@@ -111,7 +111,6 @@ def on_mouse_up(mouse_pos):
             i += 1
 
 
-# 여기서 카드 움직임(제작 불가)
 def on_mouse_down(mouse_pos):
     global mouse_move
     pass
