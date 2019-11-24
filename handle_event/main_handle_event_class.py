@@ -20,6 +20,7 @@ class Main_handle_event():
 
             elif event.type == SDL_MOUSEBUTTONDOWN:
                  Class_files.on_mouse_down((event.x, 768 - 1 - event.y))
+                 #Class_files.on_mouse_down((event.x, 768 - 1 - event.y))
 
 
             elif event.type == SDL_MOUSEBUTTONUP:

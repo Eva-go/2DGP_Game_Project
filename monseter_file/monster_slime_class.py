@@ -13,6 +13,7 @@ class Slime:
         self.frame = random.randint(0, 6)
         self.hp=20
         self.sleep = Animation('monseter_file\\slime_sleep.png',6,200,200)
+        self. slime_attack=5
         self.image = self.sleep
     def update(self):
 

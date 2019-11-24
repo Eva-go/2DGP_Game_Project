@@ -9,6 +9,7 @@ from card_file import card_list_class
 from handle_event import main_handle_event_class
 from monseter_file import monster_slime_class
 from cost_file import cost
+from turn_file import turn_state
 
 # mouse_x, mouse_y = 1366 / 2, 768 / 2
 
@@ -24,7 +25,7 @@ cost_count = 0
 
 
 def enter():
-    global grass, map, curser, player_tengo, monster_slimes, card_list, main_handle_event, cost_count
+    global grass, map, curser, player_tengo, monster_slimes, card_list, main_handle_event, cost_count,turn_start
     map = load_image('background_file\\Map1.png')
     grass = load_image('background_file\\grass2.png')
     curser = load_image('curser.png')
@@ -32,6 +33,10 @@ def enter():
     player_tengo = player_tengo_class.Tengo()
     main_handle_event = main_handle_event_class.Main_handle_event()
     game_world.add_object(player_tengo, 1)
+
+    turn_start = turn_state.Trun_end()
+    game_world.add_object(turn_start, 1)
+
 
     monster_slimes = [monster_slime_class.Slime(slime) for slime in range(3)]
     game_world.add_objects(monster_slimes, 1)

@@ -1,6 +1,5 @@
 from pico2d import *
-import openpyxl
-import Class_files
+
 
 
 class Card:
