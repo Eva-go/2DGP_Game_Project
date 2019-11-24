@@ -20,6 +20,7 @@ mouse_move = False
 tengo_attack = False
 tengo_shield = False
 card_list_del = False
+cost_count = 0
 
 
 def enter():
@@ -35,9 +36,9 @@ def enter():
     monster_slimes = [monster_slime_class.Slime(slime) for slime in range(3)]
     game_world.add_objects(monster_slimes, 1)
 
-    #cost_count = [cost.Game_cost(Counting) for Counting in range(3)]
+    # cost_count = [cost.Game_cost(Counting) for Counting in range(3)]
 
-    for counting in range (3):
+    for counting in range(3):
         cost_list.append(cost.Game_cost(counting))
     game_world.add_objects(cost_list, 1)
 
@@ -76,7 +77,7 @@ def handle_events():
 
 # 마우스가 때면 main_handle_event_class 에서 불러줌
 def on_mouse_up(mouse_pos):
-    global mouse_move, tengo_attack, tengo_shield, card_list_del
+    global mouse_move, tengo_attack, tengo_shield, card_list_del,cost_count
     mouse_move = False
     i = 0
     while i < len(card_list):
@@ -86,19 +87,19 @@ def on_mouse_up(mouse_pos):
             if card_list[i].type() == card_list_class.CARD_ATTACK:
                 tengo_attack = True
             else:
-                #tengo_shield = True
+                # tengo_shield = True
                 pass
             card_tem = card_list[i]
             card_list.remove(card_tem)
-            if card_list_del == True:
-                while i <len (cost_list):
+            #cost_count +=1
+            if tengo_attack == True:
+                while i < len(cost_list):
                     cost_tem = cost_list[i]
-                    #cost.Game_cost.cost_current -= 1
+                    # cost.Game_cost.cost_current -= 1
                     cost_list.remove(cost_tem)
                     game_world.remove_object(cost_tem)
             else:
-                card_list_del = False
-
+                tengo_attack = False
 
             game_world.remove_object(card_tem)
         else:

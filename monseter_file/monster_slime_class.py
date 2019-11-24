@@ -4,7 +4,7 @@ import game_framework
 
 TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
-FRAMES_PER_ACTION = 10
+FRAMES_PER_ACTION = 7
 
 class Slime:
 
@@ -12,7 +12,7 @@ class Slime:
         self.x, self.y = 866 + 100 * num, 300
         self.frame = random.randint(0, 6)
         self.hp=20
-        self.sleep = Animation('monseter_file\\slime_sleep.png',7,200,200)
+        self.sleep = Animation('monseter_file\\slime_sleep.png',6,200,200)
         self.image = self.sleep
     def update(self):
 
