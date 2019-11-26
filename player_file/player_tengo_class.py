@@ -22,8 +22,8 @@ class Tengo:
         self.hp = 50
         self.image_count = 0
         self.sleep = Animation('player_file\\tengo_sleep.png', 12, 200, 200)
-        self.attack = Animation('player_file\\tengo_attack.png', 11, 400, 300)
-        # self.skill = Animation('player_file\\.png', 21, 351, 129)
+        self.attack = Animation('player_file\\tengo_attack.png', 11,400, 300)
+        #self.skill = Animation('player_file\\sk.png', 15, 500, 300)
         # self.skill = Animation('player_file\\skills.png,',21,173,127)
 
         self.image = self.sleep
@@ -43,8 +43,8 @@ class Tengo:
 
         if Class_files.tengo_attack:
             self.image = self.attack
-            self.image_count +=1
-            if self.image_count >= 200:
+            self.image_count =(self.image_count+FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time)%11
+            if self.image_count ==10:
                 self.image = self.sleep
                 Class_files.tengo_attack = False
 

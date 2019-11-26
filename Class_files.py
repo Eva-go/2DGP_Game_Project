@@ -97,7 +97,7 @@ def on_mouse_up(mouse_pos):
             card_tem = card_list[i]
             card_list.remove(card_tem)
             #cost_count +=1
-            if tengo_attack == True:
+            if tengo_attack:
                 while i < len(cost_list):
                     cost_tem = cost_list[i]
                     # cost.Game_cost.cost_current -= 1
@@ -111,6 +111,7 @@ def on_mouse_up(mouse_pos):
             i += 1
 
 
+# 여기서 카드 움직임(제작 불가)
 def on_mouse_down(mouse_pos):
     global mouse_move
     pass
