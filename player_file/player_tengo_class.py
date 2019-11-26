@@ -43,8 +43,9 @@ class Tengo:
 
         if Class_files.tengo_attack:
             self.image = self.attack
-            self.image_count =(self.image_count+FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time)%11
-            if self.image_count ==10:
+            self.image_count = (self.image_count+FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time)%12
+            print(self.image_count)
+            if self.image_count >=11.0:
                 self.image = self.sleep
                 Class_files.tengo_attack = False
 
