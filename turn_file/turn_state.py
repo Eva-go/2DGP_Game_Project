@@ -19,11 +19,3 @@ class Trun_end:
         x, y, x2, y2 = self.get_rect()
         if self.x-100 >= x and  self.y-40 >= y and self.x+100 <= x2 and self.y+40 <= y2:
             return True
-
-class Player_trun:
-    def __init__(self):
-        pass
-
-class Monster_turn:
-    def __init__(self):
-        pass

@@ -91,27 +91,29 @@ def on_mouse_up(mouse_pos):
 
             if card_list[i].type() == card_list_class.CARD_ATTACK:
                 tengo_attack = True
-            else:
-                # tengo_shield = True
-                pass
+            elif card_list[i].type() == card_list_class.CARD_SHIELD:
+                tengo_shield = True
             card_tem = card_list[i]
             card_list.remove(card_tem)
             #cost_count +=1
             if tengo_attack:
-                while i < len(cost_list):
-                    cost_tem = cost_list[i]
-                    # cost.Game_cost.cost_current -= 1
-                    cost_list.remove(cost_tem)
-                    game_world.remove_object(cost_tem)
+                cost_tem = cost_list[-1]
+                cost_list.remove(cost_tem)
+                game_world.remove_object(cost_tem)
+            elif tengo_shield:
+                cost_tem = cost_list[-1]
+                # cost.Game_cost.cost_current -= 1
+                cost_list.remove(cost_tem)
+                game_world.remove_object(cost_tem)
             else:
                 tengo_attack = False
+                tengo_shield = False
 
             game_world.remove_object(card_tem)
         else:
-            i += 1
+            i +=1
 
 
-# 여기서 카드 움직임(제작 불가)
 def on_mouse_down(mouse_pos):
     global mouse_move
     pass

@@ -14,16 +14,13 @@ class Slime:
         self.hp=20
         self.sleep = Animation('monseter_file\\slime_sleep.png',6,200,200)
         self. slime_attack_damage=5
+        self. image_count=0
         self.image = self.sleep
     def update(self):
-
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 7
-        if self.frame >= self.image.max_frame:
-
-            self.frame = 0
+        pass #공격때 image_count 재서 공격모션 추가 해야함.
 
     def draw(self):
-
         self.image.clip_draw(int(self.frame), 0, 200, 200, self.x, self.y)
 
 

@@ -22,8 +22,8 @@ class Tengo:
         self.hp = 50
         self.image_count = 0
         self.sleep = Animation('player_file\\tengo_sleep.png', 12, 200, 200)
-        self.attack = Animation('player_file\\tengo_attack.png', 11,400, 300)
-        #self.skill = Animation('player_file\\sk.png', 15, 500, 300)
+        self.attack = Animation('player_file\\tengo_attack.png', 11, 400, 300)
+        self.skill = Animation('player_file\\sk.png', 15, 500, 300)
         # self.skill = Animation('player_file\\skills.png,',21,173,127)
 
         self.image = self.sleep
@@ -41,13 +41,23 @@ class Tengo:
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % self.image.max_frame
 
-        if Class_files.tengo_attack:
+        if Class_files.tengo_attack and not Class_files.tengo_shield:
             self.image = self.attack
-            self.image_count = (self.image_count+FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time)%12
+            self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 13
             print(self.image_count)
-            if self.image_count >=11.0:
+            if self.image_count >= 12.0:
                 self.image = self.sleep
                 Class_files.tengo_attack = False
+                self.image_count=0
+
+        if Class_files.tengo_shield and not Class_files.tengo_attack:
+            self.image = self.skill
+            self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 16
+            print(self.image_count)
+            if self.image_count >= 15.0:
+                self.image = self.sleep
+                Class_files.tengo_shield = False
+                self.image_count=0
 
 
 class Animation:
