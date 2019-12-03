@@ -10,22 +10,18 @@ from handle_event import main_handle_event_class
 from monseter_file import monster_slime_class
 from cost_file import cost
 from turn_file import turn_state
-
+from turn_file import player_turn_state
 # mouse_x, mouse_y = 1366 / 2, 768 / 2
 
 
-card_list = []
+
 monster_slimes = []
-cost_list = []
-mouse_move = False
-tengo_attack = False
-tengo_shield = False
 card_list_del = False
-cost_count = 0
+
 
 
 def enter():
-    global grass, map, curser, player_tengo, monster_slimes, card_list, main_handle_event, cost_count,turn_start
+    global grass, map, curser, player_tengo, monster_slimes, main_handle_event,turn_end_button
     map = load_image('background_file\\Map1.png')
     grass = load_image('background_file\\grass2.png')
     curser = load_image('curser.png')
@@ -34,38 +30,28 @@ def enter():
     main_handle_event = main_handle_event_class.Main_handle_event()
     game_world.add_object(player_tengo, 1)
 
-    turn_start = turn_state.Trun_end()
-    game_world.add_object(turn_start, 1)
+    turn_end_button = turn_state.Trun_end()
+    game_world.add_object(turn_end_button, 1)
 
 
     monster_slimes = [monster_slime_class.Slime(slime) for slime in range(3)]
     game_world.add_objects(monster_slimes, 1)
 
+    player_turn_state.player_enter()
     # cost_count = [cost.Game_cost(Counting) for Counting in range(3)]
 
-    for counting in range(3):
-        cost_list.append(cost.Game_cost(counting))
-    game_world.add_objects(cost_list, 1)
 
-    for c in range(5):
-        rand = random.randint(1, 2)
-        if rand == 1:
-            card_list.append(card_list_class.Card_Attack(c))
-        elif rand == 2:
-            card_list.append(card_list_class.Card_Shield(c))
-    game_world.add_objects(card_list, 1)
 
 
 def exit():
-    global grass, map, curser, player_tengo, monster_slimes, card_list, main_handle_event, cost_count
+    global grass, map, curser, player_tengo, monster_slimes, main_handle_event
     del (grass)
     del (map)
     del (curser)
     del (player_tengo)
     del (monster_slimes)
-    del (card_list)
     del (main_handle_event)
-    del (cost_count)
+
 
 
 def pause():
@@ -82,41 +68,13 @@ def handle_events():
 
 # 마우스가 때면 main_handle_event_class 에서 불러줌
 def on_mouse_up(mouse_pos):
-    global mouse_move, tengo_attack, tengo_shield, card_list_del,cost_count
-    mouse_move = False
-    i = 0
-    while i < len(card_list):
-        if card_list[i].card_conflict_check(mouse_pos):
-            card_list_del = True
+    player_turn_state.player_turn(mouse_pos)
 
-            if card_list[i].type() == card_list_class.CARD_ATTACK:
-                tengo_attack = True
-            elif card_list[i].type() == card_list_class.CARD_SHIELD:
-                tengo_shield = True
-            card_tem = card_list[i]
-            card_list.remove(card_tem)
-            #cost_count +=1
-            if tengo_attack:
-                cost_tem = cost_list[-1]
-                cost_list.remove(cost_tem)
-                game_world.remove_object(cost_tem)
-            elif tengo_shield:
-                cost_tem = cost_list[-1]
-                # cost.Game_cost.cost_current -= 1
-                cost_list.remove(cost_tem)
-                game_world.remove_object(cost_tem)
-            else:
-                tengo_attack = False
-                tengo_shield = False
-
-            game_world.remove_object(card_tem)
-        else:
-            i +=1
+def turn_end_up(mouse_pos):
+    if turn_end_button.trun_image_coflict_check(mouse_pos):
+        print("턴종료")
 
 
-def on_mouse_down(mouse_pos):
-    global mouse_move
-    pass
 
 
 def update():

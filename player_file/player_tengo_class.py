@@ -1,6 +1,5 @@
 from pico2d import *
-import random
-import Class_files
+from turn_file import player_turn_state
 import game_framework
 
 PIXEL_PER_METER = (10.0 / 0.3)
@@ -41,22 +40,22 @@ class Tengo:
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % self.image.max_frame
 
-        if Class_files.tengo_attack and not Class_files.tengo_shield:
+        if player_turn_state.tengo_attack and not player_turn_state.tengo_shield:
             self.image = self.attack
             self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 13
             print(self.image_count)
             if self.image_count >= 12.0:
                 self.image = self.sleep
-                Class_files.tengo_attack = False
+                player_turn_state.tengo_attack = False
                 self.image_count=0
 
-        if Class_files.tengo_shield and not Class_files.tengo_attack:
+        if player_turn_state.tengo_shield and not player_turn_state.tengo_attack:
             self.image = self.skill
             self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 16
             print(self.image_count)
             if self.image_count >= 15.0:
                 self.image = self.sleep
-                Class_files.tengo_shield = False
+                player_turn_state.tengo_shield = False
                 self.image_count=0
 
 

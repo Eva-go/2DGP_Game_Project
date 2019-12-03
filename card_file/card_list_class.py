@@ -25,7 +25,6 @@ class Card:
         if mouse_pos[0] >= x and  mouse_pos[1] >= y and mouse_pos[0] <= x2 and mouse_pos[1] <= y2:
             return True
 
-
 CARD_ATTACK, CARD_SHIELD = range(2)
 
 # CARD 메서드
