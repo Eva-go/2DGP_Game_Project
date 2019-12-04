@@ -12,8 +12,25 @@ cost_count = 0
 
 tengo_attack = False
 tengo_shield = False
+image=None
+lode_time=0.0
+your_turn=False
+def enter():
+    global image
+    image = load_image('turn_file\\Your_turn.png')
 
-def player_enter():
+def update():
+    global lode_time ,your_turn
+    if your_turn:
+        if lode_time>0.5:
+            lode_time = 0
+            your_turn = False
+def draw():
+    global image
+    image.draw(783,367)
+
+
+def player__turn_enter():
     global card_list
 
     for counting in range(3):

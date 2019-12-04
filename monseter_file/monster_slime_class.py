@@ -12,8 +12,9 @@ class Slime:
         self.x, self.y = 866 + 100 * slime_point, 300
         self.frame = random.randint(0, 6)
         self.hp=20
+        self.slime_attack_damage = 5
         self.sleep = Animation('monseter_file\\slime_sleep.png',6,200,200)
-        self. slime_attack_damage=5
+
         self. image_count=0
         self.image = self.sleep
     def update(self):

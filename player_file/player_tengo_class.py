@@ -13,12 +13,13 @@ ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 10
 
 
+
 class Tengo:
 
     def __init__(self):
         self.x, self.y = 266, 350
         self.frame = 0
-        self.hp = 50
+        self.hp = 100
         self.image_count = 0
         self.sleep = Animation('player_file\\tengo_sleep.png', 12, 200, 200)
         self.attack = Animation('player_file\\tengo_attack.png', 11, 400, 300)
