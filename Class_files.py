@@ -31,8 +31,9 @@ def enter():
     turn_end_button = turn_state.Trun_end()
     game_world.add_object(turn_end_button, 1)
 
-    player_turn_state.player__turn_enter()
+    player_turn_state.player_turn_enter()
     monster_turn_state.monster_slime_turn_enter()
+    #player_turn_state.enter()
     # cost_count = [cost.Game_cost(Counting) for Counting in range(3)]
 
 
@@ -65,36 +66,38 @@ def on_mouse_up(mouse_pos):
 def player_turn_end(mouse_pos):
     if turn_end_button.trun_image_coflict_check(mouse_pos):
         turn_end_button.turn_owner = turn_end_button.none_turn
-    turn_end_button.previous_turn_count = turn_end_button.player_turn
+        turn_end_button.previous_turn_count = turn_end_button.player_turn #이전 턴은 플레이어 턴이였다.
+        #player_turn_state.player_turn_enter()
+    #if turn_end_button.none_ture and turn_end_button.previous == turn_end_button.monster_turn:
 
 def monster_turn_end():
-    turn_end_button.turn_owner = turn_end_button.none_turn
-    turn_end_button.previous_turn_count = turn_end_button.monster_turn
+    if turn_end_button.turowner==turn_end_button.none_turn and turn_end_button.previous_turn==turn_end_button.player_turn: #현제 턴이
+        turn_end_button.turn_owner = turn_end_button.none_turn
+        turn_end_button.previous_turn_count = turn_end_button.monster_turn
 
 def none_turn_end():
     global game_time
     game_time = game_framework.frame_time % 4
     if turn_end_button.previous_turn_count == turn_end_button.player_turn:
-        if game_time>3.0:
+        if game_time>=3.0:
             turn_end_button.previous_turn_count=turn_end_button.monster_turn
     elif turn_end_button.previous_turn_count == turn_end_button.monster_turn:
-        if game_time>3.0:
+        if game_time>=3.0:
             turn_end_button.previous_turn_count=turn_end_button.player_turn
 
 
 
 def update():
     show_cursor()
-    # player_turn_state.update()
+   # player_turn_state.update()
     for game_object in game_world.all_objects():
         game_object.update()
-
 
 def draw():
     clear_canvas()
     map.draw(683, 384)
     grass.draw(683, 150)
-    # player_turn_state.draw()
+   # player_turn_state.draw()
 
     for game_object in game_world.all_objects():
         game_object.draw()

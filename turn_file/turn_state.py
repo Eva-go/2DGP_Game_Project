@@ -18,7 +18,6 @@ class Trun_end:
     def draw(self):
         if self.turn_owner==self.player_turn:
             self.image.draw(self.x,self.y)
-            print('확인')
     def update(self):
         if self.turn_owner==self.player_turn:
             self.image.draw(self.x, self.y)

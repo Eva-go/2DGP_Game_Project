@@ -1,4 +1,5 @@
 from pico2d import *
+import Class_files
 from card_file import card_list_class
 from cost_file import cost
 import game_world
@@ -20,17 +21,16 @@ def enter():
     image = load_image('turn_file\\Your_turn.png')
 
 def update():
-    global lode_time ,your_turn
-    if your_turn:
-        if lode_time>0.5:
-            lode_time = 0
-            your_turn = False
+    global image
+    if turn_state.Trun_end().turn_owner == turn_state.Trun_end().player_turn:
+        image.draw(783,367)
 def draw():
     global image
-    image.draw(783,367)
+    if turn_state.Trun_end().turn_owner == turn_state.Trun_end().player_turn:
+        image.draw(783,367)
 
 
-def player__turn_enter():
+def player_turn_enter():
     global card_list
 
     for counting in range(3):
@@ -74,6 +74,13 @@ def player_turn(mouse_pos):
                  tengo_shield = False
 
              game_world.remove_object(card_tem)
+             if Class_files.turn_end_button.trun_image_coflict_check(mouse_pos):
+                 pass
+                 #for i in len(card_list):
+                    #game_world.remove_object(i+1)
+             pass
+
+
          else:
              card_count +=1
 
