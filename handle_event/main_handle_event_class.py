@@ -23,4 +23,4 @@ class Main_handle_event():
 
             elif event.type == SDL_MOUSEBUTTONUP:
                  Class_files.on_mouse_up((event.x, 768 - 1 - event.y))
-                 Class_files.turn_end_up((event.x, 768 - 1 - event.y))
+                 Class_files.player_turn_end((event.x, 768 - 1 - event.y))

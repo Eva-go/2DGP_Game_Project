@@ -1,10 +1,10 @@
-#player turn state 플레이어 턴->행동->몬스터 턴-> 행동 반복
 from pico2d import *
 from card_file import card_list_class
 from cost_file import cost
 import game_world
 import random
-import Class_files
+from turn_file import turn_state
+
 card_count=0
 card_list = []
 cost_list = []
@@ -48,30 +48,32 @@ def player__turn_enter():
 def player_turn(mouse_pos):
     global tengo_attack, tengo_shield, card_list_del,cost_count,card_count
     card_count = 0
-    while card_count < len(card_list):
-        if card_list[card_count].card_conflict_check(mouse_pos):
-            card_list_del = True
+    if turn_state.Trun_end().turn_owner == turn_state.Trun_end().player_turn:
+        turn_state.Trun_end().turn_owner
+        while card_count < len(card_list):
+         if card_list[card_count].card_conflict_check(mouse_pos):
+             card_list_del = True
 
-            if card_list[card_count].type() == card_list_class.CARD_ATTACK:
-                tengo_attack = True
-            elif card_list[card_count].type() == card_list_class.CARD_SHIELD:
-                tengo_shield = True
-            card_tem = card_list[card_count]
-            card_list.remove(card_tem)
-            #cost_count +=1
-            if tengo_attack and not tengo_shield:
-                cost_tem = cost_list[-1]
-                cost_list.remove(cost_tem)
-                game_world.remove_object(cost_tem)
-            elif tengo_shield and not tengo_attack:
-                cost_tem = cost_list[-1]
-                cost_list.remove(cost_tem)
-                game_world.remove_object(cost_tem)
-            else:
-                tengo_attack = False
-                tengo_shield = False
+             if card_list[card_count].type() == card_list_class.CARD_ATTACK:
+                 tengo_attack = True
+             elif card_list[card_count].type() == card_list_class.CARD_SHIELD:
+                 tengo_shield = True
+             card_tem = card_list[card_count]
+             card_list.remove(card_tem)
+             #cost_count +=1
+             if tengo_attack and not tengo_shield:
+                 cost_tem = cost_list[-1]
+                 cost_list.remove(cost_tem)
+                 game_world.remove_object(cost_tem)
+             elif tengo_shield and not tengo_attack:
+                 cost_tem = cost_list[-1]
+                 cost_list.remove(cost_tem)
+                 game_world.remove_object(cost_tem)
+             else:
+                 tengo_attack = False
+                 tengo_shield = False
 
-            game_world.remove_object(card_tem)
-        else:
-            card_count +=1
+             game_world.remove_object(card_tem)
+         else:
+             card_count +=1
 

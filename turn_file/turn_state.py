@@ -1,18 +1,30 @@
 from pico2d import *
 
+
 class Trun_end:
     def __init__(self):
         self.x,self.y = 150,100
         self.image_w,self.image_h =150//2,100//2
-        self.trun_end = False
+        self.turn_owner=1
+        self.player_turn=1
+        self.monster_turn=2
+        self.none_turn=0
+        self.previous_turn_count=1
         self.image=load_image('turn_file\\turn_end.png')
 
+    def turn_owner_state(self):
+        self. turn_owner = self.none_turn
 
     def draw(self):
-        self.image.draw(self.x,self.y)
-
+        if self.turn_owner==self.player_turn:
+            self.image.draw(self.x,self.y)
+            print('확인')
     def update(self):
-        pass
+        if self.turn_owner==self.player_turn:
+            self.image.draw(self.x, self.y)
+
+
+
 
     def get_rect(self):
         return (self.x-self.image_w, self.y-self.image_w,self.x + self.image_h, self.y + self.image_h)
