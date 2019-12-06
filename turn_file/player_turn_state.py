@@ -10,43 +10,43 @@ card_count=0
 card_list = []
 cost_list = []
 cost_count = 0
-
+card_draw_list=0
 tengo_attack = False
 tengo_shield = False
-image=None
-lode_time=0.0
-your_turn=False
-def enter():
-    global image
-    image = load_image('turn_file\\Your_turn.png')
 
-def update():
-    global image
-    if turn_state.Trun_end().turn_owner == turn_state.Trun_end().player_turn:
-        image.draw(783,367)
-def draw():
-    global image
-    if turn_state.Trun_end().turn_owner == turn_state.Trun_end().player_turn:
-        image.draw(783,367)
 
+class Player_turn_image():
+    image = None
+    def __init__(self):
+        self.x,self.y =650,650
+        if self.image==None:
+           self.image = load_image('turn_file\\Your_turn.png')
+
+
+    def update(self):
+        if Class_files.turn_end_button.turn_owner == Class_files.turn_end_button.player_turn:
+            self.image.draw(self.x,self.y)
+    def draw(self):
+        if Class_files.turn_end_button.turn_owner == Class_files.turn_end_button.player_turn:
+            self.image.draw(self.x,self.y)
 
 def player_turn_enter():
-    global card_list
+    global card_list,card_draw_list
 
     for counting in range(3):
         cost_list.append(cost.Game_cost(counting))
     game_world.add_objects(cost_list, 1)
 
-    for c in range(5):
+    for card_draw_list in range(5):
         rand = random.randint(1, 2)
         if rand == 1:
-            card_list.append(card_list_class.Card_Attack(c))
+            card_list.append(card_list_class.Card_Attack(card_draw_list))
         elif rand == 2:
-            card_list.append(card_list_class.Card_Shield(c))
+            card_list.append(card_list_class.Card_Shield(card_draw_list))
     game_world.add_objects(card_list, 1)
 
 def player_turn(mouse_pos):
-    global tengo_attack, tengo_shield, card_list_del,cost_count,card_count
+    global tengo_attack, tengo_shield, card_list_del,card_count
     card_count = 0
     if turn_state.Trun_end().turn_owner == turn_state.Trun_end().player_turn:
         turn_state.Trun_end().turn_owner
@@ -74,8 +74,11 @@ def player_turn(mouse_pos):
                  tengo_shield = False
 
              game_world.remove_object(card_tem)
-             if Class_files.turn_end_button.trun_image_coflict_check(mouse_pos):
-                 pass
+             if Class_files.turn_end_button.turn_owner==Class_files.turn_end_button.monster_turn:
+                 # global card_draw_list
+                 # for card_draw_list in range(5):
+                 #    game_world.remove_object(card_draw_list,1)
+                pass
                  #for i in len(card_list):
                     #game_world.remove_object(i+1)
              pass

@@ -1,7 +1,7 @@
 from pico2d import *
 import random
 import game_framework
-
+import Class_files
 TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 7
@@ -12,16 +12,31 @@ class Slime:
         self.x, self.y = 866 + 100 * slime_point, 300
         self.frame = random.randint(0, 6)
         self.hp=20
+        self.font=load_font('resource_file\\Maplestory Light.TTF',16)
         self.slime_attack_damage = 5
         self.sleep = Animation('monseter_file\\slime_sleep.png',6,200,200)
-
+        self.attack = Animation('monseter_file\\slime_attck.png',20,200,200)
+        self.die = Animation('monseter_file\\slime_die.png',31,200,200)
         self. image_count=0
         self.image = self.sleep
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 7
-        pass #공격때 image_count 재서 공격모션 추가 해야함.
+        if self.hp>0 and Class_files.turn_end_button.turn_owner ==Class_files.turn_end_button.monster_turn:
+            self.image=self.attack
+            self.image_count=(self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 21
+            print(self.image_count)
+            if self.image_count >= 20.0:
+                self.image=self.sleep
+                Class_files.monster_turn_end()
 
+
+        if self.hp==0:
+            self.image=self.die
+            self.image_count=(self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 32
+            print('죽음')
     def draw(self):
+        self.font.draw(self.x - 35, self.y + 25, '(HP: %3.0f)' % self.hp, (255, 155, 0))
+        #폰트를 가지고 어떻게 저 슬라임 포인트를 얻을수 있는지?
         self.image.clip_draw(int(self.frame), 0, 200, 200, self.x, self.y)
 
 

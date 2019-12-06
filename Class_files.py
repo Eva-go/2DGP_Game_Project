@@ -17,9 +17,11 @@ from turn_file import monster_turn_state
 card_list_del = False
 turn_end_button = None
 game_time=None
-
+player_turn_image=None
+monster_turn_image=None
+card_draw=True
 def enter():
-    global grass, map, curser, player_tengo, main_handle_event, turn_end_button
+    global grass, map, curser, player_tengo, main_handle_event, turn_end_button,player_turn_image,monster_turn_image
     map = load_image('background_file\\Map1.png')
     grass = load_image('background_file\\grass2.png')
     curser = load_image('curser.png')
@@ -32,10 +34,12 @@ def enter():
     game_world.add_object(turn_end_button, 1)
 
     player_turn_state.player_turn_enter()
-    monster_turn_state.monster_slime_turn_enter()
-    #player_turn_state.enter()
-    # cost_count = [cost.Game_cost(Counting) for Counting in range(3)]
+    player_turn_image=player_turn_state.Player_turn_image()
+    game_world.add_object(player_turn_image,0)
 
+    monster_turn_state.monster_slime_turn_enter()
+    monster_turn_image=monster_turn_state.Monster_turn_image()
+    game_world.add_object(monster_turn_image, 0)
 
 def exit():
     global grass, map, curser, player_tengo, monster_slimes, main_handle_event
@@ -64,32 +68,27 @@ def on_mouse_up(mouse_pos):
 
 
 def player_turn_end(mouse_pos):
+    global card_draw
     if turn_end_button.trun_image_coflict_check(mouse_pos):
-        turn_end_button.turn_owner = turn_end_button.none_turn
         turn_end_button.previous_turn_count = turn_end_button.player_turn #이전 턴은 플레이어 턴이였다.
-        #player_turn_state.player_turn_enter()
+        turn_end_button.turn_owner_state()
+        turn_end_button.turn_owner=turn_end_button.monster_turn
+        card_draw =False
     #if turn_end_button.none_ture and turn_end_button.previous == turn_end_button.monster_turn:
 
 def monster_turn_end():
-    if turn_end_button.turowner==turn_end_button.none_turn and turn_end_button.previous_turn==turn_end_button.player_turn: #현제 턴이
-        turn_end_button.turn_owner = turn_end_button.none_turn
-        turn_end_button.previous_turn_count = turn_end_button.monster_turn
+    global card_draw
+    turn_end_button.previous_turn_count = turn_end_button.monster_turn
+    turn_end_button.turn_owner_state()
+    turn_end_button.turn_owner=turn_end_button.player_turn
+    player_turn_state.player_turn_enter()
 
-def none_turn_end():
-    global game_time
-    game_time = game_framework.frame_time % 4
-    if turn_end_button.previous_turn_count == turn_end_button.player_turn:
-        if game_time>=3.0:
-            turn_end_button.previous_turn_count=turn_end_button.monster_turn
-    elif turn_end_button.previous_turn_count == turn_end_button.monster_turn:
-        if game_time>=3.0:
-            turn_end_button.previous_turn_count=turn_end_button.player_turn
+    card_draw = True
 
 
 
 def update():
     show_cursor()
-   # player_turn_state.update()
     for game_object in game_world.all_objects():
         game_object.update()
 
@@ -97,7 +96,7 @@ def draw():
     clear_canvas()
     map.draw(683, 384)
     grass.draw(683, 150)
-   # player_turn_state.draw()
+
 
     for game_object in game_world.all_objects():
         game_object.draw()

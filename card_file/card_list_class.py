@@ -1,5 +1,5 @@
 from pico2d import *
-
+import Class_files
 
 
 class Card:
@@ -40,7 +40,8 @@ class Card_Attack(Card):
         return CARD_ATTACK
 
     def draw(self):
-        Card_Attack.image.draw(self.x, self.y)
+        if Class_files.card_draw:
+            Card_Attack.image.draw(self.x, self.y)
 
 
 class Card_Shield(Card):
@@ -55,4 +56,5 @@ class Card_Shield(Card):
         return CARD_SHIELD
 
     def draw(self):
-        Card_Shield.image.draw(self.x, self.y)
+        if Class_files.card_draw:
+            Card_Shield.image.draw(self.x, self.y)

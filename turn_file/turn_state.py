@@ -14,6 +14,10 @@ class Trun_end:
 
     def turn_owner_state(self):
         self. turn_owner = self.none_turn
+        # if self.previous_turn_count==1:
+        #     self.turn_owner=self.monster_turn
+        # elif self.previous_turn_count==2:
+        #     self.turn_owner=self.player_turn
 
     def draw(self):
         if self.turn_owner==self.player_turn:
@@ -21,9 +25,6 @@ class Trun_end:
     def update(self):
         if self.turn_owner==self.player_turn:
             self.image.draw(self.x, self.y)
-
-
-
 
     def get_rect(self):
         return (self.x-self.image_w, self.y-self.image_w,self.x + self.image_h, self.y + self.image_h)
