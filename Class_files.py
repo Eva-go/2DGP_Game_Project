@@ -82,6 +82,7 @@ def monster_turn_end():
     turn_end_button.turn_owner_state()
     turn_end_button.turn_owner=turn_end_button.player_turn
     player_turn_state.player_turn_enter()
+    player_turn_state.player_turn(main_handle_event_class.Main_handle_event().mouse_point)
 
     card_draw = True
 

@@ -7,7 +7,8 @@ class Main_handle_event():
     def __init__(self):
         self.mouse_x, self.mouse_y=0,0
         self.card_list_move = False
-        self. card_list_del = False
+        self.card_list_del = False
+        self.mouse_point=0,0
     def handle_events(self):
         events = get_events()
         for event in events:
@@ -24,3 +25,4 @@ class Main_handle_event():
             elif event.type == SDL_MOUSEBUTTONUP:
                  Class_files.on_mouse_up((event.x, 768 - 1 - event.y))
                  Class_files.player_turn_end((event.x, 768 - 1 - event.y))
+                 self.mouse_point=(event.x, 768 - 1 - event.y)

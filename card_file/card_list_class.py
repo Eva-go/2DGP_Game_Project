@@ -14,8 +14,7 @@ class Card:
     def get_rect(self):
         return (self.x-self.half_w, self.y-self.half_h,self.x + self.half_w, self.y + self.half_h)
 
-    def update(self):
-        pass
+
         #self.x,self.y =mouse_pos
 
 
@@ -42,8 +41,9 @@ class Card_Attack(Card):
     def draw(self):
         if Class_files.card_draw:
             Card_Attack.image.draw(self.x, self.y)
-
-
+    def update(self):
+        if Class_files.turn_end_button.turn_owner == Class_files.turn_end_button.monster_turn:
+            Card_Attack.image = load_image('card_file\\Card_Attack.png')
 class Card_Shield(Card):
     image = None
 
@@ -58,3 +58,7 @@ class Card_Shield(Card):
     def draw(self):
         if Class_files.card_draw:
             Card_Shield.image.draw(self.x, self.y)
+
+    def update(self):
+        if Class_files.turn_end_button.turn_owner == Class_files.turn_end_button.monster_turn:
+            Card_Shield.image = load_image('card_file\\Card_Shield.png')

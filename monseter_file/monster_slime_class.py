@@ -24,9 +24,10 @@ class Slime:
         if self.hp>0 and Class_files.turn_end_button.turn_owner ==Class_files.turn_end_button.monster_turn:
             self.image=self.attack
             self.image_count=(self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 21
-            print(self.image_count)
+            #print(self.image_count)
             if self.image_count >= 20.0:
                 self.image=self.sleep
+                self.image_count=0
                 Class_files.monster_turn_end()
 
 
@@ -35,7 +36,6 @@ class Slime:
             self.image_count=(self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 32
     def draw(self):
         self.font.draw(self.x - 35, self.y + 25, '(HP: %3.0f)' % self.hp, (255, 155, 0))
-        #폰트를 가지고 어떻게 저 슬라임 포인트를 얻을수 있는지?
         self.image.clip_draw(int(self.frame), 0, 200, 200, self.x, self.y)
 
 
