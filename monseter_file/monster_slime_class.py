@@ -33,7 +33,6 @@ class Slime:
         if self.hp==0:
             self.image=self.die
             self.image_count=(self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 32
-            print('죽음')
     def draw(self):
         self.font.draw(self.x - 35, self.y + 25, '(HP: %3.0f)' % self.hp, (255, 155, 0))
         #폰트를 가지고 어떻게 저 슬라임 포인트를 얻을수 있는지?

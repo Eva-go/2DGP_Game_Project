@@ -48,7 +48,6 @@ class Tengo:
         if player_turn_state.tengo_attack and not player_turn_state.tengo_shield:
             self.image = self.attack
             self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 13
-            print(self.image_count)
             monster_slime_class.Slime(monster_count).hp = monster_slime_class.Slime(monster_count).hp -self.tengo_attack_damage
             if self.image_count >= 12.0:
                 self.image = self.sleep
@@ -58,7 +57,6 @@ class Tengo:
         if player_turn_state.tengo_shield and not player_turn_state.tengo_attack:
             self.image = self.skill
             self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 16
-            print(self.image_count)
             if self.image_count >= 15.0:
                 self.image = self.sleep
                 player_turn_state.tengo_shield = False
