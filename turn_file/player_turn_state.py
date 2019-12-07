@@ -35,9 +35,9 @@ class Player_turn_image():
 def player_turn_enter():
     global card_list, card_draw_list
     print('player_turn_enter')
-    for counting in range(3):
+    for counting in range(5):
         cost_list.append(cost.Game_cost(counting))
-    game_world.add_objects(cost_list, 1)
+    game_world.add_objects(cost_list, 1)#코스트
 
     for card_draw_list in range(5):
         # del(card_list_class.Card_Attack(card_draw_list).image)
@@ -47,24 +47,24 @@ def player_turn_enter():
             card_list.append(card_list_class.Card_Attack(card_draw_list))
         elif rand == 2:
             card_list.append(card_list_class.Card_Shield(card_draw_list))
-    game_world.add_objects(card_list, 1)
+    game_world.add_objects(card_list, 1)#카드
 
 
 def player_turn(mouse_pos):
     global tengo_attack, tengo_shield, card_count
     card_count = 0
-    print("player_turn")
+
     if Class_files.turn_end_button.turn_owner==Class_files.turn_end_button.player_turn:
         while card_count < len(card_list):
-            print('while')
+
             if card_list[card_count].card_conflict_check(mouse_pos):
                 if card_list[card_count].type() == card_list_class.CARD_ATTACK:
-                    print('tengo_attack = True')
+
                     tengo_attack = True
                 elif card_list[card_count].type() == card_list_class.CARD_SHIELD:
-                    print("tengo_shield = True")
+
                     tengo_shield = True
-                print('card_list.remove')
+
                 card_tem = card_list[card_count]
                 card_list.remove(card_tem)
                 # cost_count +=1
@@ -79,11 +79,11 @@ def player_turn(mouse_pos):
                     cost_list.remove(cost_tem)
                     game_world.remove_object(cost_tem)
                 else:
-                    print("tengo_at and tengo_sd = false")
+
                     tengo_attack = False
                     tengo_shield = False
-                print("game_world.remove_object(card_tem)")
+
                 game_world.remove_object(card_tem)
             else:
-                print("card_count+=1")
+
                 card_count += 1

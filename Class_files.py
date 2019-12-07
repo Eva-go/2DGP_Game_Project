@@ -16,25 +16,30 @@ from turn_file import monster_turn_state
 
 card_list_del = False
 turn_end_button = None
+player_tengo=None
 game_time = None
 player_turn_image = None
 monster_turn_image = None
 card_draw = True
-card_check_count=0
-
+card_check_count = 0
+monster_attck_end = 0
+monster_die_check = True
+monster_die_count = 3
+monster_die_check_end=False
 def enter():
     global grass, map, curser, player_tengo, main_handle_event, turn_end_button, player_turn_image, monster_turn_image
-    print("enter")
     map = load_image('background_file\\Map1.png')
     grass = load_image('background_file\\grass2.png')
     curser = load_image('curser.png')
 
-    player_tengo = player_tengo_class.Tengo()
+
     main_handle_event = main_handle_event_class.Main_handle_event()
+    player_tengo = player_tengo_class.Tengo() #플레이어
     game_world.add_object(player_tengo, 1)
 
-    turn_end_button = turn_state.Trun_end()
-    game_world.add_object(turn_end_button, 1)
+    turn_end_button = turn_state.Trun_end() #턴종료
+    game_world.add_object(turn_end_button, 0)
+
 
     player_turn_state.player_turn_enter()
     player_turn_image = player_turn_state.Player_turn_image()
@@ -43,18 +48,6 @@ def enter():
     monster_turn_state.monster_slime_turn_enter()
     monster_turn_image = monster_turn_state.Monster_turn_image()
     game_world.add_object(monster_turn_image, 0)
-
-
-def exit():
-    global grass, map, curser, player_tengo, monster_slimes, main_handle_event
-    print('exit')
-    del (grass)
-    del (map)
-    del (curser)
-    del (player_tengo)
-    del (monster_slimes)
-    del (main_handle_event)
-
 
 def pause():
     pass
@@ -76,20 +69,30 @@ def on_mouse_up(mouse_pos):
 def player_turn_end(mouse_pos):
     global card_draw, card_check_count
     print('player_turn_end')
-    if turn_end_button.trun_image_coflict_check(mouse_pos):
+    if turn_end_button.trun_image_coflict_check(mouse_pos) and not turn_end_button.turn_owner == turn_end_button.monster_turn:
         turn_end_button.previous_turn_count = turn_end_button.player_turn  # 이전 턴은 플레이어 턴이였다.
         turn_end_button.turn_owner_state()
         print("시작")
+
+        player_turn_state.card_count=0
         while player_turn_state.card_count<len(player_turn_state.card_list):
-            player_turn_state.card_list.remove(player_turn_state.card_count)
-            game_world.remove_object(player_turn_state.card_count)
-            print('돌아감?')
-            print(player_turn_state.card_count)
+            print("class_while")
+            #print(len(player_turn_state.card_list))
+            #print(len(player_turn_state.card_list[player_turn_state.card_count]))
+            if len(player_turn_state.card_list)>=1:
+                game_world.remove_object(player_turn_state.card_list[player_turn_state.card_count])
+                player_turn_state.card_list.pop(0)
+            if len(player_turn_state.cost_list) >= 1:
+                game_world.remove_object(player_turn_state.cost_list[player_turn_state.cost_count])
+                player_turn_state.cost_list.pop(0)
+            else:
+                pass
         print("종료")
         turn_end_button.turn_owner = turn_end_button.monster_turn
         card_draw = False
-
-    # if turn_end_button.none_ture and turn_end_button.previous == turn_end_button.monster_turn:
+        player_turn_state.player_turn_enter()
+        player_turn_image = player_turn_state.Player_turn_image()
+        game_world.add_object(player_turn_image, 0)
 
 
 def monster_turn_end():
@@ -98,16 +101,20 @@ def monster_turn_end():
     turn_end_button.previous_turn_count = turn_end_button.monster_turn
     turn_end_button.turn_owner_state()
     turn_end_button.turn_owner = turn_end_button.player_turn
-    player_turn_state.player_turn_enter()
     player_turn_state.player_turn(main_handle_event_class.Main_handle_event().mouse_point)
 
     card_draw = True
 
 
 def update():
+    global monster_attck_end
     show_cursor()
     for game_object in game_world.all_objects():
         game_object.update()
+    #왜 여기서 무한반복이 될까?
+    if monster_attck_end >= monster_die_count:
+        monster_turn_end()
+        print(monster_die_count)
 
 
 def draw():

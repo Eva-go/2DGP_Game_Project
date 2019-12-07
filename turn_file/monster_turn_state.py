@@ -26,8 +26,10 @@ class Monster_turn_image():
 def monster_slime_turn_enter():
     print("monster_slime_turn_enter")
     global  monster_slimes
-    monster_slimes = [monster_slime_class.Slime(slime) for slime in range(3)]
-    game_world.add_objects(monster_slimes, 1)
+    for monsters in range(3):
+        monster_slimes.append(monster_slime_class.Slime(monsters))
+    game_world.add_objects(monster_slimes, 1)  # 코스트
+
 
 
 def monster_slime_turn():

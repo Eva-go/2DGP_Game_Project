@@ -1,7 +1,7 @@
 from pico2d import *
 from turn_file import player_turn_state
 import game_framework
-from monseter_file import monster_slime_class
+import Class_files
 from turn_file import monster_turn_state
 PIXEL_PER_METER = (10.0 / 0.3)
 RUN_SPEED_KMPH = 20.0
@@ -21,7 +21,7 @@ class Tengo:
         self.x, self.y = 266, 350
         self.frame = 0
         self.hp = 100
-        self.tengo_attack_damage = 20
+        self.tengo_attack_damage = 10
         self.font=load_font('resource_file\\Maplestory Light.TTF',16)
         self.image_count = 0
         self.sleep = Animation('player_file\\tengo_sleep.png', 12, 200, 200)
@@ -48,8 +48,10 @@ class Tengo:
         if player_turn_state.tengo_attack and not player_turn_state.tengo_shield:
             self.image = self.attack
             self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 13
-            monster_slime_class.Slime(monster_count).hp = monster_slime_class.Slime(monster_count).hp -self.tengo_attack_damage
+
             if self.image_count >= 12.0:
+                monster_turn_state.monster_slimes[0].hp -= self.tengo_attack_damage
+                Class_files.monster_die_check=True
                 self.image = self.sleep
                 player_turn_state.tengo_attack = False
                 self.image_count=0
