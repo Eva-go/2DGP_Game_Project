@@ -12,6 +12,7 @@ class Card:
 
     # 충돌 영역 반환 해줌
     def get_rect(self):
+        print("card_get_rect")
         return (self.x-self.half_w, self.y-self.half_h,self.x + self.half_w, self.y + self.half_h)
 
 
@@ -20,6 +21,7 @@ class Card:
 
     # 카드가 마우스랑 충돌했는지?
     def card_conflict_check(self, mouse_pos):
+        print('card_conflict_check')
         x,y,x2,y2 = self.get_rect() # 충돌범위
         if mouse_pos[0] >= x and  mouse_pos[1] >= y and mouse_pos[0] <= x2 and mouse_pos[1] <= y2:
             return True
