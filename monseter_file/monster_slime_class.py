@@ -4,11 +4,12 @@ import game_framework
 import Class_files
 import game_world
 from turn_file import monster_turn_state
-from player_file import player_tengo_class
+from turn_file import player_turn_state
 TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 7
 
+monster_get_hit = 0
 
 
 class Slime:
@@ -43,13 +44,19 @@ class Slime:
                 self.image = self.sleep
                 print(self.num)
                 self.image_count = 0
-        #죽는게 아닌 맞았을때 die모션을 하자
+
+       # if player_turn_state.tengo_attack:
+            #monster_turn_state.monster_slimes[monster_get_hit].image = self.die
+            #self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 32
+            #if player_turn_state.tengo_attack==False:
+                #monster_turn_state.monster_slimes[monster_get_hit].image = self.sleep
+                #self.image_count=0
+          #  player_turn_state.monster_hit = False
+
+
         if monster_turn_state.monster_slimes[0].hp == 0 and Class_files.monster_die_check==True:
             Class_files.monster_die_check = False
             Class_files.monster_die_count-=1
-            self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 32
-            if self.image_count >=30.0:
-                self.image = self.die
             monster_turn_state.monster_slimes[0].hp = 20
             if len(monster_turn_state.monster_slimes)>=1:
                 monster_die = monster_turn_state.monster_slimes[-1]

@@ -3,6 +3,7 @@ from turn_file import player_turn_state
 import game_framework
 import Class_files
 from turn_file import monster_turn_state
+
 PIXEL_PER_METER = (10.0 / 0.3)
 RUN_SPEED_KMPH = 20.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
@@ -48,7 +49,7 @@ class Tengo:
         if player_turn_state.tengo_attack and not player_turn_state.tengo_shield:
             self.image = self.attack
             self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 13
-
+            #player_turn_state.monster_hit = True
             if self.image_count >= 12.0:
                 monster_turn_state.monster_slimes[0].hp -= self.tengo_attack_damage
                 Class_files.monster_die_check=True

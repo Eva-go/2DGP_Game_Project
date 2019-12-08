@@ -13,7 +13,7 @@ cost_count = 0
 card_draw_list = 0
 tengo_attack = False
 tengo_shield = False
-
+monster_hit = False
 
 class Player_turn_image():
     image = None
