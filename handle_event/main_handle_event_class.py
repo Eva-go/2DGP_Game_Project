@@ -1,6 +1,6 @@
 from pico2d import*
 import Title_state
-import Class_files
+import main_state
 import game_framework
 from card_file import card_list_class
 class Main_handle_event():
@@ -23,6 +23,6 @@ class Main_handle_event():
                 pass
 
             elif event.type == SDL_MOUSEBUTTONUP:
-                 Class_files.on_mouse_up((event.x, 768 - 1 - event.y))
-                 Class_files.player_turn_end((event.x, 768 - 1 - event.y))
+                 main_state.on_mouse_up((event.x, 768 - 1 - event.y))
+                 main_state.player_turn_end((event.x, 768 - 1 - event.y))
                  self.mouse_point=(event.x, 768 - 1 - event.y)

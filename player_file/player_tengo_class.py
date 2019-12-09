@@ -1,7 +1,7 @@
 from pico2d import *
 from turn_file import player_turn_state
 import game_framework
-import Class_files
+import main_state
 from turn_file import monster_turn_state
 
 PIXEL_PER_METER = (10.0 / 0.3)
@@ -46,13 +46,14 @@ class Tengo:
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % self.image.max_frame
 
-        if player_turn_state.tengo_attack and not player_turn_state.tengo_shield:
+        if player_turn_state.tengo_attack and not player_turn_state.tengo_shield: #플레이어가 공격할때,그리고 쉴드를 사용하지 않을때
             self.image = self.attack
             self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 13
-            #player_turn_state.monster_hit = True
             if self.image_count >= 12.0:
-                monster_turn_state.monster_slimes[0].hp -= self.tengo_attack_damage
-                Class_files.monster_die_check=True
+                if len(monster_turn_state.monster_slimes)>0: #몬스터가 0마리보다 크면
+                    monster_turn_state.monster_slimes[0].hp-= self.tengo_attack_damage
+
+                main_state.monster_die_check=True
                 self.image = self.sleep
                 player_turn_state.tengo_attack = False
                 self.image_count=0

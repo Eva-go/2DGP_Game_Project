@@ -1,5 +1,5 @@
 import game_framework
-import Class_files
+import main_state
 import Title_state
 from pico2d import *
 

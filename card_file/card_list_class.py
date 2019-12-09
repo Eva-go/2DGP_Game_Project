@@ -1,5 +1,5 @@
 from pico2d import *
-import Class_files
+import main_state
 
 
 class Card:
@@ -39,10 +39,10 @@ class Card_Attack(Card):
         return CARD_ATTACK
 
     def draw(self):
-        if Class_files.card_draw:
+        if main_state.card_draw:
             Card_Attack.image.draw(self.x, self.y)
     def update(self):
-        if Class_files.turn_end_button.turn_owner == Class_files.turn_end_button.monster_turn:
+        if main_state.turn_end_button.turn_owner == main_state.turn_end_button.monster_turn:
             Card_Attack.image = load_image('card_file\\Card_Attack.png')
 class Card_Shield(Card):
     image = None
@@ -56,9 +56,9 @@ class Card_Shield(Card):
         return CARD_SHIELD
 
     def draw(self):
-        if Class_files.card_draw:
+        if main_state.card_draw:
             Card_Shield.image.draw(self.x, self.y)
 
     def update(self):
-        if Class_files.turn_end_button.turn_owner == Class_files.turn_end_button.monster_turn:
+        if main_state.turn_end_button.turn_owner == main_state.turn_end_button.monster_turn:
             Card_Shield.image = load_image('card_file\\Card_Shield.png')

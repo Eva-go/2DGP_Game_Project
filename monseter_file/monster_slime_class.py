@@ -1,16 +1,16 @@
 from pico2d import *
 import random
 import game_framework
-import Class_files
+import main_state
 import game_world
 from turn_file import monster_turn_state
 from turn_file import player_turn_state
+from player_file import player_tengo_class
 TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 7
 
 monster_get_hit = 0
-
 
 class Slime:
 
@@ -19,7 +19,7 @@ class Slime:
         self.frame = random.randint(0, 6)
         self.num=slime_point
         self.hp=20
-        self.font=load_font('resource_file\\Maplestory Light.TTF',16)
+        self.font=load_font('resource_file\\Maplestory Light.TTF',20)
         self.slime_attack_damage = 5
         self.sleep = Animation('monseter_file\\slime_sleep.png',6,200,200)
         self.attack = Animation('monseter_file\\slime_attck.png',20,200,200)
@@ -27,23 +27,28 @@ class Slime:
         self. image_count = 0
         self.image = self.sleep
         self.monster_attack=False
+        self.attack_count=0
 
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 7
-        if self.hp>0 and Class_files.turn_end_button.turn_owner == Class_files.turn_end_button.monster_turn:
+
+        if main_state.turn_end_button.turn_owner == main_state.turn_end_button.monster_turn: #현제 턴이 몬스터 턴일때?
             check_monster_attack=False
+            #self.image_count=0
             self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time)
-            if self.image_count >=20.0:
-                check_monster_attack=True
-            self.image_count = self.image_count %21
-            self.image = self.attack
-            if check_monster_attack and not self.monster_attack:
-                self.monster_attack=True
-                Class_files.monster_attck_end+=1
-                Class_files.player_tengo.hp -= self.slime_attack_damage
-                self.image = self.sleep
-                print(self.num)
-                self.image_count = 0
+            self.image_count = self.image_count % 21
+            for m in monster_turn_state.monster_slimes:
+                m.image = self.attack
+                self.attack_count+=1
+            if self.attack_count>=3 and self.image_count >=20.0:
+                for m in monster_turn_state.monster_slimes:
+                    m.image = self.sleep
+                    main_state.player_tengo.hp -= self.slime_attack_damage
+                    self.image_count = 0
+                self.attack_count=0
+                main_state.monster_turn_end()
+
+
 
        # if player_turn_state.tengo_attack:
             #monster_turn_state.monster_slimes[monster_get_hit].image = self.die
@@ -53,15 +58,17 @@ class Slime:
                 #self.image_count=0
           #  player_turn_state.monster_hit = False
 
+        if main_state.turn_end_button.turn_owner == main_state.turn_end_button.player_turn:
+            if monster_turn_state.monster_slimes[0].hp == 0 and main_state.monster_die_check==True:
+                main_state.monster_die_check = False
+                main_state.monster_die_count-=1
+                monster_turn_state.monster_slimes[0].hp = 20
+                if len(monster_turn_state.monster_slimes)>0: #몬스터 숫자가 0마리 이상일때
+                    monster_die = monster_turn_state.monster_slimes[-1]
+                    monster_turn_state.monster_die_count -=1
+                    monster_turn_state.monster_slimes.remove(monster_die)
+                    game_world.remove_object(monster_die)
 
-        if monster_turn_state.monster_slimes[0].hp == 0 and Class_files.monster_die_check==True:
-            Class_files.monster_die_check = False
-            Class_files.monster_die_count-=1
-            monster_turn_state.monster_slimes[0].hp = 20
-            if len(monster_turn_state.monster_slimes)>=1:
-                monster_die = monster_turn_state.monster_slimes[-1]
-                monster_turn_state.monster_slimes.remove(monster_die)
-                game_world.remove_object(monster_die)
 
     def draw(self):
         self.font.draw(self.x - 35, self.y + 25, '(HP: %3.0f)' % self.hp, (255, 155, 0))

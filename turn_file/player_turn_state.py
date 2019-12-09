@@ -1,5 +1,5 @@
 from pico2d import *
-import Class_files
+import main_state
 from card_file import card_list_class
 from cost_file import cost
 import game_world
@@ -24,11 +24,11 @@ class Player_turn_image():
             self.image = load_image('turn_file\\Your_turn.png')
 
     def update(self):
-        if Class_files.turn_end_button.turn_owner == Class_files.turn_end_button.player_turn:
+        if main_state.turn_end_button.turn_owner == main_state.turn_end_button.player_turn:
             self.image.draw(self.x, self.y)
 
     def draw(self):
-        if Class_files.turn_end_button.turn_owner == Class_files.turn_end_button.player_turn:
+        if main_state.turn_end_button.turn_owner == main_state.turn_end_button.player_turn:
             self.image.draw(self.x, self.y)
 
 
@@ -54,7 +54,7 @@ def player_turn(mouse_pos):
     global tengo_attack, tengo_shield, card_count
     card_count = 0
 
-    if Class_files.turn_end_button.turn_owner==Class_files.turn_end_button.player_turn:
+    if main_state.turn_end_button.turn_owner==main_state.turn_end_button.player_turn:
         while card_count < len(card_list):
 
             if card_list[card_count].card_conflict_check(mouse_pos):
