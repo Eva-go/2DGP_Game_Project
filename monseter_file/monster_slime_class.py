@@ -20,7 +20,7 @@ class Slime:
         self.num=slime_point
         self.hp=20
         self.font=load_font('resource_file\\Maplestory Light.TTF',20)
-        self.slime_attack_damage = 5
+        self.slime_attack_damage = 15
         self.sleep = Animation('monseter_file\\slime_sleep.png',6,200,200)
         self.attack = Animation('monseter_file\\slime_attck.png',20,200,200)
         self.die = Animation('monseter_file\\slime_die.png',31,200,200)

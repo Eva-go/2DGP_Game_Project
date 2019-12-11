@@ -23,7 +23,7 @@ class Tengo:
         self.frame = 0
         self.hp = 100
         self.tengo_attack_damage = 10
-        self.font=load_font('resource_file\\Maplestory Light.TTF',16)
+        self.font=load_font('resource_file\\Maplestory Light.TTF',20)
         self.image_count = 0
         self.sleep = Animation('player_file\\tengo_sleep.png', 12, 200, 200)
         self.attack = Animation('player_file\\tengo_attack.png', 11, 400, 300)
