@@ -4,8 +4,9 @@ import game_framework
 import main_state
 import game_world
 from turn_file import monster_turn_state
-from turn_file import player_turn_state
-from player_file import player_tengo_class
+from background_file import Stage_1
+from background_file import Stage_2
+from background_file import Stage_3
 TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 7
@@ -48,21 +49,15 @@ class Slime:
                 self.attack_count=0
                 main_state.monster_turn_end()
 
-
-
-       # if player_turn_state.tengo_attack:
-            #monster_turn_state.monster_slimes[monster_get_hit].image = self.die
-            #self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 32
-            #if player_turn_state.tengo_attack==False:
-                #monster_turn_state.monster_slimes[monster_get_hit].image = self.sleep
-                #self.image_count=0
-          #  player_turn_state.monster_hit = False
-
         if main_state.turn_end_button.turn_owner == main_state.turn_end_button.player_turn:
             if monster_turn_state.monster_slimes[0].hp == 0 and main_state.monster_die_check==True:
                 main_state.monster_die_check = False
                 main_state.monster_die_count-=1
                 monster_turn_state.monster_slimes[0].hp = 20
+                if len(monster_turn_state.monster_slimes) == 1:
+                    Stage_1.stage_count+=1
+
+                    game_framework.change_state(Stage_2)
                 if len(monster_turn_state.monster_slimes)>0: #몬스터 숫자가 0마리 이상일때
                     monster_die = monster_turn_state.monster_slimes[-1]
                     monster_turn_state.monster_die_count -=1

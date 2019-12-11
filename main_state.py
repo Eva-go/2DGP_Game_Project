@@ -4,10 +4,10 @@ import os
 import game_world
 import game_framework
 from pico2d import *
-
+from background_file import backgroun_class
 from player_file import player_tengo_class
 from handle_event import main_handle_event_class
-
+from background_file import Stage_1
 from turn_file import turn_state
 from turn_file import player_turn_state
 from turn_file import monster_turn_state
@@ -27,24 +27,31 @@ monster_die_check = True
 monster_die_count = 3
 monster_die_check_end=False
 player_turn_start=False
+
+stage=None
+grass=None
 def enter():
-    global grass, map, curser, player_tengo, main_handle_event, turn_end_button, player_turn_image, monster_turn_image
-    map = load_image('background_file\\Map1.png')
-    grass = load_image('background_file\\grass2.png')
-    curser = load_image('curser.png')
+    global grass, map, curser, player_tengo, main_handle_event, turn_end_button, player_turn_image, monster_turn_image,stage
+    if Stage_1.stage_count==0:
+        curser = load_image('curser.png')
+
+        stage=backgroun_class.Back_ground()
+        game_world.add_object(stage, 0)
+        grass=backgroun_class.Grass()
+        game_world.add_object(grass, 0)
+
+        main_handle_event = main_handle_event_class.Main_handle_event()
+        player_tengo = player_tengo_class.Tengo() #플레이어
+        game_world.add_object(player_tengo, 1)
+
+        turn_end_button = turn_state.Trun_end() #턴종료
+        game_world.add_object(turn_end_button, 0)
 
 
-    main_handle_event = main_handle_event_class.Main_handle_event()
-    player_tengo = player_tengo_class.Tengo() #플레이어
-    game_world.add_object(player_tengo, 1)
+        player_turn_state.player_turn_enter()
 
-    turn_end_button = turn_state.Trun_end() #턴종료
-    game_world.add_object(turn_end_button, 0)
-
-
-    player_turn_state.player_turn_enter()
-    player_turn_image = player_turn_state.Player_turn_image()
-    game_world.add_object(player_turn_image, 0)
+        player_turn_image = player_turn_state.Player_turn_image()
+        game_world.add_object(player_turn_image, 0)
 
     monster_turn_state.monster_slime_turn_enter()
     monster_turn_image = monster_turn_state.Monster_turn_image()
@@ -52,9 +59,7 @@ def enter():
 
 def exit():
     global map,curser,grass
-    del(map)
-    del(curser)
-    del(grass)
+    pass
 
 def pause():
     pass
@@ -123,8 +128,6 @@ def update():
 
 def draw():
     clear_canvas()
-    map.draw(683, 384)
-    grass.draw(683, 150)
 
     for game_object in game_world.all_objects():
         game_object.draw()

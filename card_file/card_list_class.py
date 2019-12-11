@@ -24,7 +24,7 @@ class Card:
         if mouse_pos[0] >= x and  mouse_pos[1] >= y and mouse_pos[0] <= x2 and mouse_pos[1] <= y2:
             return True
 
-CARD_ATTACK, CARD_SHIELD = range(2)
+CARD_ATTACK, CARD_SHIELD,CARD_ALL_ATTACK= range(3)
 
 # CARD 메서드
 class Card_Attack(Card):
@@ -62,3 +62,22 @@ class Card_Shield(Card):
     def update(self):
         if main_state.turn_end_button.turn_owner == main_state.turn_end_button.monster_turn:
             Card_Shield.image = load_image('card_file\\Card_Shield.png')
+
+class Card_all_attack(Card):
+    image = None
+
+    def __init__(self, num):
+        super().__init__(num)
+        if Card_all_attack.image == None:
+            Card_all_attack.image = load_image('card_file\\Card_all_attack.png')
+
+    def type(self):
+        return CARD_ALL_ATTACK
+
+    def draw(self):
+        if main_state.card_draw:
+            Card_all_attack.image.draw(self.x, self.y)
+
+    def update(self):
+        if main_state.turn_end_button.turn_owner == main_state.turn_end_button.monster_turn:
+            Card_all_attack.image = load_image('card_file\\Card_all_attack.png')

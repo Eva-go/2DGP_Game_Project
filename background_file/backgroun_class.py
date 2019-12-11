@@ -1,21 +1,43 @@
 from pico2d import *
-
-
+import main_state
+from background_file import Stage_1
 class Grass:
     def __init__(self):
-        self.image = load_image('grass2.png')
-        self.layer = 0
+        self.x = 683
+        self.y = 150
+        self.image = load_image('background_file\\grass2.png')
 
     def draw(self):
-        self.image.draw(683, 150)
+        self.image.draw(self.x, self.y)
+
+    def update(self):
+        pass
 
 
-class Map:
+class Back_ground:
     def __init__(self):
-        self.map1_image = load_image('Map1.png')
-        self.map2_image = load_image('map2.png')
+        self.x = 683
+        self.y = 384
+        self.stage_1 = Stage('background_file\\Map1.png', self.x, self.y)
+        self.stage_2 = Stage('background_file\\Map2.png', self.x, self.y)
+        self.stage_3 = Stage('background_file\\Map3.png', self.x, self.y)
+        self.image = self.stage_1
         self.layer = 0
 
     def draw(self):
-        self.map1_image.draw(683, 384)
-        self.map2_image.draw(683, 384)
+        self.image.draw(self.x, self.y)
+
+    def update(self):
+        if Stage_1.stage_count==1:
+            self.image = self.stage_2
+
+
+
+class Stage:
+    def __init__(self, path, x, y):
+        self.image = load_image(path)
+        self.x = x
+        self.y = y
+
+    def draw(self, x, y):
+        self.image.draw(x, y)

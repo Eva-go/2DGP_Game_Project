@@ -22,7 +22,7 @@ class Tengo:
         self.x, self.y = 266, 350
         self.frame = 0
         self.hp = 100
-        self.tengo_attack_damage = 10
+        self.tengo_attack_damage = 20
         self.font=load_font('resource_file\\Maplestory Light.TTF',20)
         self.image_count = 0
         self.sleep = Animation('player_file\\tengo_sleep.png', 12, 200, 200)
@@ -46,7 +46,7 @@ class Tengo:
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % self.image.max_frame
 
-        if player_turn_state.tengo_attack and not player_turn_state.tengo_shield: #플레이어가 공격할때,그리고 쉴드를 사용하지 않을때
+        if player_turn_state.tengo_attack and not player_turn_state.tengo_shield and not player_turn_state.tengo_all_attack:
             self.image = self.attack
             self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 13
             if self.image_count >= 12.0:
@@ -58,13 +58,26 @@ class Tengo:
                 player_turn_state.tengo_attack = False
                 self.image_count=0
 
-        if player_turn_state.tengo_shield and not player_turn_state.tengo_attack:
+        if player_turn_state.tengo_shield and not player_turn_state.tengo_attack and not player_turn_state.tengo_all_attack:
             self.image = self.skill
             self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 16
             if self.image_count >= 15.0:
                 self.image = self.sleep
                 player_turn_state.tengo_shield = False
                 self.image_count=0
+
+        if player_turn_state.tengo_all_attack and not player_turn_state.tengo_shield and not player_turn_state.tengo_attack:
+            self.image = self.attack
+            self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 13
+            if self.image_count >= 12.0:
+                if len(monster_turn_state.monster_slimes)>0: #몬스터가 0마리보다 크면
+                    for i in range(len((monster_turn_state.monster_slimes))):
+                        monster_turn_state.monster_slimes[i].hp -= self.tengo_attack_damage
+
+                main_state.monster_die_check = True
+                self.image = self.sleep
+                player_turn_state.tengo_all_attack = False
+                self.image_count = 0
 
 
 class Animation:
