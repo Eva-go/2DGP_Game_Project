@@ -4,13 +4,17 @@ from handle_event import title_handle_event_class
 name = "TitleState"
 title = None
 curser = None
+bgm=None
 #mouse_x, mouse_y = 1366 / 2, 768 / 2
 
 
 def enter():
-    global title, curser, event
+    global title, curser, event,bgm
     title = load_image('Title.png')
     curser = load_image('curser.png')
+    bgm = load_music('music_file\\back_ground_music.ogg')
+    bgm.set_volume(25)
+    bgm.repeat_play()
     event= title_handle_event_class.Title_state_event()
 
 

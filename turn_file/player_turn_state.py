@@ -4,8 +4,7 @@ from card_file import card_list_class
 from cost_file import cost
 import game_world
 import random
-from turn_file import turn_state
-from handle_event import main_handle_event_class
+from player_file import player_tengo_class
 card_count = 0
 card_list = []
 cost_list = []
@@ -15,6 +14,7 @@ tengo_attack = False
 tengo_shield = False
 tengo_all_attack=False
 monster_hit = False
+
 
 class Player_turn_image():
     image = None
@@ -72,6 +72,7 @@ def player_turn(mouse_pos):
                 card_list.remove(card_tem)
                 # cost_count +=1
                 if tengo_attack and not tengo_shield and not tengo_all_attack:
+
                     cost_tem = cost_list[-1]
                     # if len(cost_tem) > len(cost_list):
                     cost_list.remove(cost_tem)

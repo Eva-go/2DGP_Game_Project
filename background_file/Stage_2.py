@@ -3,7 +3,7 @@ import main_state
 from pico2d import *
 
 
-name = "stage_1"
+name = "stage_2"
 image = None
 logo_time = 0.0
 

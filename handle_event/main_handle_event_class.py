@@ -15,7 +15,7 @@ class Main_handle_event():
             if event.type == SDL_QUIT:
                 game_framework.quit()
             elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-                game_framework.change_state(Title_state)
+                game_framework.quit()
             elif event.type == SDL_MOUSEMOTION:
                 self.mouse_x,  self.mouse_y = event.x, 768 - 1 - event.y
 

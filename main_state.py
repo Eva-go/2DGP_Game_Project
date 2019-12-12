@@ -1,8 +1,5 @@
-import random
-import json
-import os
+
 import game_world
-import game_framework
 from pico2d import *
 from background_file import backgroun_class
 from player_file import player_tengo_class
@@ -27,12 +24,14 @@ monster_die_check = True
 monster_die_count = 3
 monster_die_check_end=False
 player_turn_start=False
-
 stage=None
 grass=None
+player_tengo_attack_hit=False
+replay=0
+
 def enter():
-    global grass, map, curser, player_tengo, main_handle_event, turn_end_button, player_turn_image, monster_turn_image,stage
-    if Stage_1.stage_count==0:
+    global grass, map, curser, player_tengo, main_handle_event, turn_end_button, player_turn_image, monster_turn_image,stage,player_tengo_attack_hit
+    if Stage_1.stage_count == 0 and  replay==0:
         curser = load_image('curser.png')
 
         stage=backgroun_class.Back_ground()
@@ -52,10 +51,12 @@ def enter():
 
         player_turn_image = player_turn_state.Player_turn_image()
         game_world.add_object(player_turn_image, 0)
-
-    monster_turn_state.monster_slime_turn_enter()
-    monster_turn_image = monster_turn_state.Monster_turn_image()
-    game_world.add_object(monster_turn_image, 0)
+    if replay==0 or replay==2:
+        monster_turn_state.monster_slime_turn_enter()
+        monster_turn_image = monster_turn_state.Monster_turn_image()
+        game_world.add_object(monster_turn_image, 0)
+    if Stage_1.stage_count>0:
+        player_turn_end(main_handle_event_class.Main_handle_event().mouse_point)
 
 def exit():
     global map,curser,grass
@@ -116,7 +117,7 @@ def monster_turn_end():
 
     turn_end_button.turn_owner = turn_end_button.player_turn
     player_turn_state.player_turn(main_handle_event_class.Main_handle_event().mouse_point)
-
+    player_tengo.tengo_shield=0
     card_draw = True
 
 def update():

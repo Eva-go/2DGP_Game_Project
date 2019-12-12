@@ -7,6 +7,7 @@ from turn_file import monster_turn_state
 from background_file import Stage_1
 from background_file import Stage_2
 from background_file import Stage_3
+from ui_file import game_clear
 TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 7
@@ -20,8 +21,10 @@ class Slime:
         self.frame = random.randint(0, 6)
         self.num=slime_point
         self.hp=20
+        self.attack_sound = load_wav('music_file\\tengo_attack_sound.wav')
+        self.attack_sound.set_volume(30)
         self.font=load_font('resource_file\\Maplestory Light.TTF',20)
-        self.slime_attack_damage = 15
+        self.slime_attack_damage = 20
         self.sleep = Animation('monseter_file\\slime_sleep.png',6,200,200)
         self.attack = Animation('monseter_file\\slime_attck.png',20,200,200)
         self.die = Animation('monseter_file\\slime_die.png',31,200,200)
@@ -44,20 +47,35 @@ class Slime:
             if self.attack_count>=3 and self.image_count >=20.0:
                 for m in monster_turn_state.monster_slimes:
                     m.image = self.sleep
-                    main_state.player_tengo.hp -= self.slime_attack_damage
+                    self.attack_sound.play()
+                    main_state.player_tengo_attack_hit=True
+                    main_state.player_tengo.total_hp = main_state.player_tengo.hp+main_state.player_tengo.tengo_shield
+                    main_state.player_tengo.total_hp -= self.slime_attack_damage
+                    main_state.player_tengo.hp=main_state.player_tengo.total_hp
                     self.image_count = 0
                 self.attack_count=0
                 main_state.monster_turn_end()
 
         if main_state.turn_end_button.turn_owner == main_state.turn_end_button.player_turn:
-            if monster_turn_state.monster_slimes[0].hp == 0 and main_state.monster_die_check==True:
+            if monster_turn_state.monster_slimes[0].hp <= 0 and main_state.monster_die_check==True:
                 main_state.monster_die_check = False
                 main_state.monster_die_count-=1
-                monster_turn_state.monster_slimes[0].hp = 20
+                if len(monster_turn_state.monster_slimes)>1:
+                    monster_turn_state.monster_slimes[0].hp = monster_turn_state.monster_slimes[1].hp
+                else:
+                    monster_turn_state.monster_slimes[0].hp=monster_turn_state.monster_slimes[0].hp
                 if len(monster_turn_state.monster_slimes) == 1:
+                    main_state.replay=2
                     Stage_1.stage_count+=1
+                    if Stage_1.stage_count==1:
+                        game_framework.change_state(Stage_2)
+                    elif Stage_1.stage_count==2:
+                        game_framework.change_state(Stage_3)
+                    elif Stage_1.stage_count==3:
+                         game_framework.change_state(game_clear)
 
-                    game_framework.change_state(Stage_2)
+
+
                 if len(monster_turn_state.monster_slimes)>0: #몬스터 숫자가 0마리 이상일때
                     monster_die = monster_turn_state.monster_slimes[-1]
                     monster_turn_state.monster_die_count -=1

@@ -30,6 +30,8 @@ class Back_ground:
     def update(self):
         if Stage_1.stage_count==1:
             self.image = self.stage_2
+        if Stage_1.stage_count==2:
+            self.image = self.stage_3
 
 
 
