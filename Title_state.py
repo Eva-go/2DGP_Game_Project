@@ -13,7 +13,7 @@ def enter():
     title = load_image('Title.png')
     curser = load_image('curser.png')
     bgm = load_music('music_file\\back_ground_music.ogg')
-    bgm.set_volume(25)
+    bgm.set_volume(60)
     bgm.repeat_play()
     event= title_handle_event_class.Title_state_event()
 

@@ -35,7 +35,9 @@ class Tengo:
         self.attack_hit=Animation('player_file\\tengo_sleep_hit.png',12,200,200)
         # self.skill = Animation('player_file\\skills.png,',21,173,127)
         self.attack_sound = load_wav('music_file\\tengo_attack_sound.wav')
-        self.attack_sound.set_volume(30)
+        self.attack_sound.set_volume(70)
+        self.shield_sound = load_wav('music_file\\tengo_shield_sound.wav')
+        self.attack_sound.set_volume(100)
         self.image = self.sleep
 
         self.layer = 1
@@ -58,9 +60,9 @@ class Tengo:
 
             self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 13
             if self.image_count >= 12.0:
+                self.attack_sound.play()
                 if len(monster_turn_state.monster_slimes)>0: #몬스터가 0마리보다 크면
                     monster_turn_state.monster_slimes[0].hp-= self.tengo_attack_damage
-                    self.attack_sound.play()
                 main_state.monster_die_check=True
                 self.image = self.sleep
                 player_turn_state.tengo_attack = False
@@ -72,20 +74,19 @@ class Tengo:
             self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 16
             if self.image_count >= 15.0:
                 self.tengo_shield+=5
+                self.shield_sound.play()
                 self.image = self.sleep
                 player_turn_state.tengo_shield = False
                 self.image_count=0
 
         if player_turn_state.tengo_all_attack and not player_turn_state.tengo_shield and not player_turn_state.tengo_attack:
             self.image = self.attack
-            self.attack_sound.play()
             self.image_count = (self.image_count + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 13
             if self.image_count >= 12.0:
+                self.attack_sound.play()
                 if len(monster_turn_state.monster_slimes)>0: #몬스터가 0마리보다 크면
-                    self.attack_sound.play()
                     for i in range(len((monster_turn_state.monster_slimes))):
                         monster_turn_state.monster_slimes[i].hp -= self.tengo_all_attack_damage
-
                 main_state.monster_die_check = True
                 self.image = self.sleep
                 player_turn_state.tengo_all_attack = False
